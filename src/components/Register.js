@@ -28,7 +28,7 @@ class Register extends Component {
     let { name, aoa_number, password, email } = this.state
     let db_prefix = `${aoa_number}_${name}_prod`
     try {
-      axios.post('http://localhost:3001/societies', {"society": {
+      axios.post('http://52.66.213.63/configurator_api_service/societies', {"society": {
         name,
         aoa_number,
         password,
