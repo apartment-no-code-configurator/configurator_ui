@@ -36,7 +36,7 @@ class Register extends Component {
         email
       }}).then((response) => {
         //TO-DO: Add loaders and flash messages
-        if (response.ok) {
+        if (response.status === 201) {
           window.location.href = `${window.location.origin}/login`
         } else {
           throw response.json()
