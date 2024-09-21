@@ -15,7 +15,7 @@ export class Status {
     this.id = params.id
     this.content = params.label
     this.api_name = params.api_name
-    this.variables = params.variables ? params.variables.map((variable) => new Variable(this, variable.name, variable.description, variable.datatype, variable.api_name, variable.id)) : []
+    this.variables = params.variables ? params.variables.map((variable) => new Variable(this, variable.name, variable.description, variable.datatype, variable.api_name, variable.id, variable.options)) : []
     this.status_level_actions = params.status_level_actions
     this.self_occuring_conditions = params.self_occuring_conditions
     this.setChildrenStatuses(params, coordinates);

@@ -72,7 +72,7 @@ export default class VariableModal extends Component {
                 </select>
             </Form.Field>
             {
-              selectedVariable.dataType === "select" || selectedVariable.dataType === "select_boxes" || selectedVariable.dataType === "radio" ? <OptionsSection selectedVariable={selectedVariable} /> : <></>
+              selectedVariable.dataType === "select" || selectedVariable.dataType === "select_boxes" ? <OptionsSection selectedVariable={selectedVariable} /> : <></>
             }
           </Form>
         </Modal.Content>

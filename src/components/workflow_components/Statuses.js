@@ -189,7 +189,7 @@ export default class Statuses extends Component {
 
   changeSelectedStatus = (event) => {
     this.setState({
-      variableSelectedStatus: this.state.statuses.find((status) => status.id === event.target.value),
+      variableSelectedStatus: this.state.statuses.find((status) => status.id.toString() === event.target.value),
       newVariable: new Variable()
     })
   }
@@ -266,10 +266,9 @@ export default class Statuses extends Component {
           <select
           value={newVariable.dataType}
           onChange={(e) => {
-            const updatedVariable = { ...newVariable, dataType: e.target.value };
-            const { newVariable, variableSelectedStatus } = this.state;
-            newVariable.setDataType(variableSelectedStatus)
-            newVariable.setDescription(e.target.value)
+            // const updatedVariable = { ...newVariable, dataType: e.target.value };
+            const { newVariable } = this.state;
+            newVariable.setDataType(e.target.value)
             this.setState({ newVariable: newVariable })
           }}
           >
