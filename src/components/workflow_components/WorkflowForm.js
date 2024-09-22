@@ -156,7 +156,7 @@ class WorkflowForm extends Component {
   };
 
   render() {
-    const { activePaneIndex } = this.state;
+    const { activePaneIndex, workflowObj, workflowId } = this.state;
 
     return (
       <div className="workflow-form-container">
@@ -165,7 +165,7 @@ class WorkflowForm extends Component {
           Go to Workflows list
         </a>
         <h1>Workflow Details</h1>
-        <Tab panes={this.panes()} activeIndex={activePaneIndex} onTabChange={this.handleTabChange}/>
+        { (workflowObj && workflowId) || !workflowId ? <Tab panes={this.panes()} activeIndex={activePaneIndex} onTabChange={this.handleTabChange}/> : <></>}
       </div>
     )
   }
