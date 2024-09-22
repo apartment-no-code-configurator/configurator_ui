@@ -58,8 +58,10 @@ class ChatbotList extends Component {
   handleDeleteChatbot = (id) => {
     // Logic to delete a chatbot by id
     const toDeleteChatbot = this.state.chatbots.filter(chatbot => chatbot.id() !== id)[0];
-    toDeleteChatbot.deleteRecord();
-    window.location.reload();
+    if (toDeleteChatbot.deleteRecord()) {
+      window.location.reload();
+    }
+
   };
 
   handleActivateChatbot = (id) => {
@@ -80,6 +82,9 @@ class ChatbotList extends Component {
     this.setState({
       chatbots: [...chatbots, chatBot]
     })
+    if (chatBot) {
+      window.location.reload();
+    }
   }
 
   render() {

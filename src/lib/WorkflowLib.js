@@ -56,6 +56,7 @@ export class Workflow {
       axios.post("http://52.66.213.63/workflow_service/workflow", this.generateObjDetailsPayload(), {
         headers: this.generateHeaders()
       }).then((response) => {
+        debugger;
         if (response.status >= 200 && response.status < 300) {
           return true
         } else {
@@ -63,8 +64,10 @@ export class Workflow {
         }
       })
     } catch(error) {
+      console.log(error);
       throw error
     }
+    return true;
   }
 
   updateObj() {

@@ -12,7 +12,6 @@ class WorkflowForm extends Component {
 
   constructor(props){
     super(props);
-
     const segments = window.location.href.split('/').filter(segment => segment);
     const workflowId =  segments.pop();
 
@@ -103,7 +102,16 @@ class WorkflowForm extends Component {
   panes = () => {
     const { workflowObj, chatbots } = this.state;
     if (!workflowObj) {
-      return []
+      return [
+        {
+          menuItem: 'Workflow Initial Details',
+          render: () => (
+            <Tab.Pane>
+              <WorkflowDetails fetchWorkflow={this.fetchWorkflow} workflowObj={workflowObj} chatbots={chatbots} updateActivePaneIndex={this.updateActivePaneIndex} />
+            </Tab.Pane>
+          )
+        }
+      ]
     }
     return ([
       {

@@ -53,10 +53,13 @@ export default class WorkflowDetails extends Component {
     try {
       if (workflowObj.id()) {
         workflowObj.updateObj();
+        this.props.updateActivePaneIndex(1)
       } else {
-        workflowObj.createObj();
+        if(workflowObj.createObj()) {
+          window.location.replace(`${window.location.origin}/workflows`);
+        }
       }
-      this.props.updateActivePaneIndex(1)
+
 
     } catch (error) {
       console.log(error)
@@ -110,7 +113,7 @@ export default class WorkflowDetails extends Component {
             onChange={(e, { name, checked }) => this.handleChange(e, { name, value: checked })}
           />
         </Form.Field>
-        <Button type='submit'>Save and move to next step</Button>
+        <Button type='submit'>Save{ workflowObj.id() ? " and move to next step" : ""}</Button>
       </Form>
     )
   }
