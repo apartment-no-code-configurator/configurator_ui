@@ -25,7 +25,7 @@ export default class EditStatusForm extends Component {
       if (!localStorage.getItem('apartix_session_id')) {
         return;
       }
-      const response = await fetch(`http://localhost:1001/workflows/${workflowId}/status_list`, {
+      const response = await fetch(`http://52.66.213.63/workflow_service/workflows/${workflowId}/status_list`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',

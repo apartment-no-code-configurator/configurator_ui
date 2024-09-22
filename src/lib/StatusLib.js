@@ -59,7 +59,7 @@ export class Status {
 
   editParentStatus = (newParent) => {
     let result = true;
-    axios.put("http://localhost:1001/condition_status_linking", {
+    axios.put("http://52.66.213.63/workflow_service/condition_status_linking", {
       "id": this.id,
       "parent_status": {
         "id": newParent
@@ -85,7 +85,7 @@ export class Status {
 
   editChildStatus(newChild) {
     let result = true;
-    axios.put("http://localhost:1001/condition_status_linking", {
+    axios.put("http://52.66.213.63/workflow_service/condition_status_linking", {
       "id": this.id,
       "parent_status": {
         "id": this.id
@@ -110,7 +110,7 @@ export class Status {
   }
 
   createStatus(parentStatusId, newValueLabelValue) {
-    axios.post("http://localhost:1001/status_linking", {
+    axios.post("http://52.66.213.63/workflow_service/status_linking", {
       "parent_status": {
         "id": parentStatusId
       },
@@ -131,7 +131,7 @@ export class Status {
   }
 
   editStatusName() {
-    axios.patch("http://localhost:1001/status", {
+    axios.patch("http://52.66.213.63/workflow_service/status", {
       "id": this.id,
       "label": this.content
     }, {

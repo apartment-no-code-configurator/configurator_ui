@@ -53,7 +53,7 @@ export class Workflow {
 
   createObj() {
     try {
-      axios.post("http://localhost:1001/workflow", this.generateObjDetailsPayload(), {
+      axios.post("http://52.66.213.63/workflow_service/workflow", this.generateObjDetailsPayload(), {
         headers: this.generateHeaders()
       }).then((response) => {
         if (response.status >= 200 && response.status < 300) {
@@ -71,7 +71,7 @@ export class Workflow {
     const payload = this.generateObjDetailsPayload()
     payload.workflow.id = this.id()
     try {
-      axios.patch("http://localhost:1001/workflow", payload, {
+      axios.patch("http://52.66.213.63/workflow_service/workflow", payload, {
         headers: this.generateHeaders()
       }).then((response) => {
         if (response.status >= 200 && response.status < 300) {

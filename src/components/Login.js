@@ -26,7 +26,7 @@ class Login extends Component {
     event.preventDefault();
     let { password, email, aoa_number } = this.state
     try {
-      axios.post('http://localhost:1002/login', {
+      axios.post('http://52.66.213.63/idp_service/login', {
         aoa_number,
         user_login: {
           password,

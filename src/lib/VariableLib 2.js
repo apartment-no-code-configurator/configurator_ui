@@ -59,7 +59,7 @@ export class Variable {
     }
 
     try {
-      axios.put("http://localhost:1001/status_variables", payload, {
+      axios.put("http://52.66.213.63/workflow_service/status_variables", payload, {
         headers: this.generateHeaders()
       }).then((response) => {
         //TO-DO: Correct the response handling

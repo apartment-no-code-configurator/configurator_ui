@@ -51,7 +51,7 @@ export class Chatbot {
       }
     }
     try {
-      axios.post("http://localhost:1004/create_chat_bot", payload, {
+      axios.post("http://52.66.213.63/telegram_chat_service/create_chat_bot", payload, {
         headers: this.generateHeaders()
       }).then((response) => {
         if (response.ok) {
@@ -67,7 +67,7 @@ export class Chatbot {
 
   deleteRecord() {
     try {
-      axios.delete(`http://localhost:1004/delete_chat_bot/${this.id()}`, {
+      axios.delete(`http://52.66.213.63/telegram_chat_service/delete_chat_bot/${this.id()}`, {
         headers: this.generateHeaders()
       }).then((response) => {
         if (response.ok) {
