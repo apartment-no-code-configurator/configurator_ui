@@ -27,7 +27,7 @@ class ChatbotList extends Component {
 
   fetchChatbots = async () => {
     try {
-      const response = await fetch(`http://${API_HOST}/telegram_chat_service/chat_bots`, {
+      const response = await fetch(`https://${API_HOST}/telegram_chat_service/chat_bots`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',

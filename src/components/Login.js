@@ -27,7 +27,7 @@ class Login extends Component {
     event.preventDefault();
     let { password, email, aoa_number } = this.state
     try {
-      axios.post(`http://${API_HOST}/idp_service/login`, {
+      axios.post(`https://${API_HOST}/idp_service/login`, {
         aoa_number,
         user_login: {
           password,

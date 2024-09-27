@@ -46,7 +46,7 @@ class WorkflowForm extends Component {
 
   fetchChatbots = async () => {
     try {
-      const response = await fetch(`http://${API_HOST}/telegram_chat_service/chat_bots`, {
+      const response = await fetch(`https://${API_HOST}/telegram_chat_service/chat_bots`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -70,7 +70,7 @@ class WorkflowForm extends Component {
   fetchWorkflow = async () => {
     const { workflowId } = this.state;
     try {
-      const response = await fetch(`http://${API_HOST}/workflow_service/workflows/${workflowId}`, {
+      const response = await fetch(`https://${API_HOST}/workflow_service/workflows/${workflowId}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',

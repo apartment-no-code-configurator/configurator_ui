@@ -54,7 +54,7 @@ export class Workflow {
 
   createObj() {
     try {
-      axios.post(`http://${API_HOST}/workflow_service/workflow`, this.generateObjDetailsPayload(), {
+      axios.post(`https://${API_HOST}/workflow_service/workflow`, this.generateObjDetailsPayload(), {
         headers: this.generateHeaders()
       }).then((response) => {
         if (response.status >= 200 && response.status < 300) {
@@ -74,7 +74,7 @@ export class Workflow {
     const payload = this.generateObjDetailsPayload()
     payload.workflow.id = this.id()
     try {
-      axios.patch(`http://${API_HOST}/workflow_service/workflow`, payload, {
+      axios.patch(`https://${API_HOST}/workflow_service/workflow`, payload, {
         headers: this.generateHeaders()
       }).then((response) => {
         if (response.status >= 200 && response.status < 300) {

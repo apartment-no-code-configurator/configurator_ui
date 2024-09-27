@@ -30,7 +30,7 @@ export default class WorkflowList extends Component {
 
   fetchWorkflows = async () => {
     try {
-      const response = await fetch(`http://${API_HOST}/workflow_service/workflows`, {
+      const response = await fetch(`https://${API_HOST}/workflow_service/workflows`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',

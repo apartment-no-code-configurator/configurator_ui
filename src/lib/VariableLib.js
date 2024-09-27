@@ -60,7 +60,7 @@ export class Variable {
     }
 
     try {
-      axios.put(`http://${API_HOST}/workflow_service/status_variables`, payload, {
+      axios.put(`https://${API_HOST}/workflow_service/status_variables`, payload, {
         headers: this.generateHeaders()
       }).then((response) => {
         //TO-DO: Correct the response handling

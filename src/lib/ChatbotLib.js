@@ -52,7 +52,7 @@ export class Chatbot {
       }
     }
     try {
-      axios.post(`http://${API_HOST}/telegram_chat_service/create_chat_bot`, payload, {
+      axios.post(`https://${API_HOST}/telegram_chat_service/create_chat_bot`, payload, {
         headers: this.generateHeaders()
       }).then((response) => {
         if (response.ok) {
@@ -68,7 +68,7 @@ export class Chatbot {
 
   deleteRecord() {
     try {
-      axios.delete(`http://${API_HOST}/telegram_chat_service/delete_chat_bot/${this.id()}`, {
+      axios.delete(`https://${API_HOST}/telegram_chat_service/delete_chat_bot/${this.id()}`, {
         headers: this.generateHeaders()
       }).then((response) => {
         if (response.ok) {

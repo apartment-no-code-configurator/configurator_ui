@@ -20,7 +20,7 @@ export default class AddStatusForm extends Component {
       if (!localStorage.getItem('apartix_session_id')) {
         return;
       }
-      const response = await fetch(`http://${API_HOST}/workflow_service/workflows/${workflowId}/status_list`, {
+      const response = await fetch(`https://${API_HOST}/workflow_service/workflows/${workflowId}/status_list`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
