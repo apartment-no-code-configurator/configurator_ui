@@ -4,6 +4,7 @@ import { DataGrid, Column } from 'devextreme-react/data-grid';
 import { Workflow } from '../../lib/WorkflowLib';
 import 'devextreme/dist/css/dx.light.css';
 import Button from 'devextreme-react/button';
+import { API_HOST } from '../utils/Constants';
 
 export default class WorkflowList extends Component {
 
@@ -29,7 +30,7 @@ export default class WorkflowList extends Component {
 
   fetchWorkflows = async () => {
     try {
-      const response = await fetch('http://52.66.213.63/workflow_service/workflows', {
+      const response = await fetch(`http://${API_HOST}/workflow_service/workflows`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',

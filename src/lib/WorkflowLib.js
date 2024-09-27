@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { API_HOST } from '../utils/Constants';
 
 export class Workflow {
 
@@ -53,7 +54,7 @@ export class Workflow {
 
   createObj() {
     try {
-      axios.post("http://52.66.213.63/workflow_service/workflow", this.generateObjDetailsPayload(), {
+      axios.post(`http://${API_HOST}/workflow_service/workflow`, this.generateObjDetailsPayload(), {
         headers: this.generateHeaders()
       }).then((response) => {
         if (response.status >= 200 && response.status < 300) {
@@ -73,7 +74,7 @@ export class Workflow {
     const payload = this.generateObjDetailsPayload()
     payload.workflow.id = this.id()
     try {
-      axios.patch("http://52.66.213.63/workflow_service/workflow", payload, {
+      axios.patch(`http://${API_HOST}/workflow_service/workflow`, payload, {
         headers: this.generateHeaders()
       }).then((response) => {
         if (response.status >= 200 && response.status < 300) {

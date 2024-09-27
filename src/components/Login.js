@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './../styling/Login.css'
 import axios from 'axios';
+import { API_HOST } from "./../utils/Constants.jsx";
 
 class Login extends Component {
 
@@ -26,7 +27,7 @@ class Login extends Component {
     event.preventDefault();
     let { password, email, aoa_number } = this.state
     try {
-      axios.post('http://52.66.213.63/idp_service/login', {
+      axios.post(`http://${API_HOST}/idp_service/login`, {
         aoa_number,
         user_login: {
           password,

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './../styling/Register.css'
 import axios from 'axios';
+import { API_HOST } from '../utils/Constants';
 
 class Register extends Component {
 
@@ -28,7 +29,7 @@ class Register extends Component {
     let { name, aoa_number, password, email } = this.state
     let db_prefix = `${aoa_number}_${name}_prod`
     try {
-      axios.post('http://52.66.213.63/configurator_api_service/societies', {"society": {
+      axios.post(`http://${API_HOST}/configurator_api_service/societies`, {"society": {
         name,
         aoa_number,
         password,

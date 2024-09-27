@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { refreshPage } from '../utils/Utils';
 import { Option } from './OptionLib';
+import { API_HOST } from '../utils/Constants';
 
 export class Variable {
   constructor(statusObj=null, name=null, description=null, datatype="text", apiName=null, id=null, options="[]") {
@@ -59,7 +60,7 @@ export class Variable {
     }
 
     try {
-      axios.put("http://52.66.213.63/workflow_service/status_variables", payload, {
+      axios.put(`http://${API_HOST}/workflow_service/status_variables`, payload, {
         headers: this.generateHeaders()
       }).then((response) => {
         //TO-DO: Correct the response handling

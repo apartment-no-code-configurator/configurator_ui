@@ -5,6 +5,7 @@ import Button from 'devextreme-react/button';
 import withSessionCheck from '../../higher_order_components/CheckSession.js';
 import { Chatbot } from '../../lib/ChatbotLib.js';
 import AddChatbot from './AddChatbot.js';
+import { API_HOST } from '../utils/Constants';
 
 class ChatbotList extends Component {
   constructor(props) {
@@ -26,7 +27,7 @@ class ChatbotList extends Component {
 
   fetchChatbots = async () => {
     try {
-      const response = await fetch('http://52.66.213.63/telegram_chat_service/chat_bots', {
+      const response = await fetch(`http://${API_HOST}/telegram_chat_service/chat_bots`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',

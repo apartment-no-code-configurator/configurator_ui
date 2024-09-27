@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Form, Input, Dropdown, Label, Button } from 'semantic-ui-react';
+import { API_HOST } from '../utils/Constants';
 
 export default class AddStatusForm extends Component {
 
@@ -19,7 +20,7 @@ export default class AddStatusForm extends Component {
       if (!localStorage.getItem('apartix_session_id')) {
         return;
       }
-      const response = await fetch(`http://52.66.213.63/workflow_service/workflows/${workflowId}/status_list`, {
+      const response = await fetch(`http://${API_HOST}/workflow_service/workflows/${workflowId}/status_list`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',

@@ -6,6 +6,7 @@ import 'semantic-ui-css/semantic.min.css';
 import WorkflowDetails from './WorkflowDetails';
 import Statuses from './Statuses';
 import { Status } from '../../lib/StatusLib';
+import { API_HOST } from '../utils/Constants';
 
 //please fix this component to be able to pass workflowObj and statuses to WorkflowDetails component
 class WorkflowForm extends Component {
@@ -45,7 +46,7 @@ class WorkflowForm extends Component {
 
   fetchChatbots = async () => {
     try {
-      const response = await fetch('http://52.66.213.63/telegram_chat_service/chat_bots', {
+      const response = await fetch(`http://${API_HOST}/telegram_chat_service/chat_bots`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -69,7 +70,7 @@ class WorkflowForm extends Component {
   fetchWorkflow = async () => {
     const { workflowId } = this.state;
     try {
-      const response = await fetch(`http://52.66.213.63/workflow_service/workflows/${workflowId}`, {
+      const response = await fetch(`http://${API_HOST}/workflow_service/workflows/${workflowId}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
