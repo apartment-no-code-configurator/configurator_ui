@@ -5,7 +5,7 @@ import Button from 'devextreme-react/button';
 import withSessionCheck from '../../higher_order_components/CheckSession.js';
 import { Chatbot } from '../../lib/ChatbotLib.js';
 import AddChatbot from './AddChatbot.js';
-import { API_HOST } from '../utils/Constants';
+import { API_HOST } from '../../utils/Constants.jsx';
 
 class ChatbotList extends Component {
   constructor(props) {

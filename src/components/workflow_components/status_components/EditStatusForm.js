@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Form, Input, Dropdown, Label, Button } from 'semantic-ui-react';
 import { Table } from 'semantic-ui-react';
-import { API_HOST } from '../utils/Constants';
+import { API_HOST } from '../../../utils/Constants';
 
 export default class EditStatusForm extends Component {
 

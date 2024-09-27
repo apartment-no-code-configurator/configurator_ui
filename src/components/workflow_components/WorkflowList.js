@@ -4,7 +4,7 @@ import { DataGrid, Column } from 'devextreme-react/data-grid';
 import { Workflow } from '../../lib/WorkflowLib';
 import 'devextreme/dist/css/dx.light.css';
 import Button from 'devextreme-react/button';
-import { API_HOST } from '../utils/Constants';
+import { API_HOST } from '../../utils/Constants';
 
 export default class WorkflowList extends Component {
 

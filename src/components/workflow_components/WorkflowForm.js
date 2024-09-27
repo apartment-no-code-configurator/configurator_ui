@@ -6,7 +6,7 @@ import 'semantic-ui-css/semantic.min.css';
 import WorkflowDetails from './WorkflowDetails';
 import Statuses from './Statuses';
 import { Status } from '../../lib/StatusLib';
-import { API_HOST } from '../utils/Constants';
+import { API_HOST } from '../../utils/Constants';
 
 //please fix this component to be able to pass workflowObj and statuses to WorkflowDetails component
 class WorkflowForm extends Component {
