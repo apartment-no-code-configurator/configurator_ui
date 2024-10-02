@@ -56,7 +56,7 @@ export default class WorkflowDetails extends Component {
         this.props.updateActivePaneIndex(1)
       } else {
         if(workflowObj.createObj()) {
-          window.location.replace(`${window.location.origin}/workflows`);
+          // window.location.replace(`${window.location.origin}/workflows`);
         }
       }
 

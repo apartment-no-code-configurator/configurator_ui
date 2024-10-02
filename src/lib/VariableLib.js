@@ -68,7 +68,7 @@ export class Variable {
           console.log("status variable creation response")
           console.log(response)
           alert(`Variable successfully ${this.id === null ? "created" : "updated"}`)
-          refreshPage()
+          // refreshPage()
           //TO-DO: Check for id updation if variable is created newly
           this.apiName = response.data.apiName
           return true

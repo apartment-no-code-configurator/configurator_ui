@@ -125,7 +125,7 @@ export class Status {
     }, {
       headers: this.generateHeaders()
     }).then((response) => {
-      refreshPage();
+      // refreshPage();
     }).catch((error) => {
       console.log(error)
     })
