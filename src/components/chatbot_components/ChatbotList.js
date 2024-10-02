@@ -60,7 +60,6 @@ class ChatbotList extends Component {
     // Logic to delete a chatbot by id
     const toDeleteChatbot = this.state.chatbots.filter(chatbot => chatbot.id() !== id)[0];
     if (toDeleteChatbot.deleteRecord()) {
-      window.location.reload();
     }
 
   };
@@ -68,7 +67,6 @@ class ChatbotList extends Component {
   handleActivateChatbot = (id) => {
     const toEditChatbot = this.state.chatbots.filter(chatbot => chatbot.id() !== id)[0];
     toEditChatbot.editRecord();
-    window.location.reload();
   }
 
   closeAddChatbotSidebar = () => {
@@ -84,7 +82,6 @@ class ChatbotList extends Component {
       chatbots: [...chatbots, chatBot]
     })
     if (chatBot) {
-      window.location.reload();
     }
   }
 
