@@ -32,7 +32,6 @@ class AddChatbot extends Component {
     const { chatbot } = this.state;
     try {
       this.props.updateChatBotList(chatbot.createChatbotRecord());
-      window.location.reload();
     } catch (error) {
       console.log(error)
       throw error
