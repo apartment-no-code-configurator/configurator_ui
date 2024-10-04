@@ -12,7 +12,7 @@ export class Chatbot {
   }
 
   setValue(key, value) {
-    this.record[key] = value
+    this.record[key] = value.trim()
   }
 
   id() {
