@@ -1,18 +1,18 @@
 import React, { Component } from 'react'
+import { DataGrid, Column, Toolbar, Item } from 'devextreme-react/data-grid';
 import { Link } from 'react-router-dom';
-import { DataGrid, Column } from 'devextreme-react/data-grid';
 import { Workflow } from '../../lib/WorkflowLib';
-import 'devextreme/dist/css/dx.light.css';
 import Button from 'devextreme-react/button';
 import { API_HOST } from '../../utils/Constants';
+import { CLoader } from '../../utils/CLoader'; 
 
 export default class WorkflowList extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
       workflows: [],
       error: null,
+      loading: true
     };
   }
 
@@ -42,48 +42,43 @@ export default class WorkflowList extends Component {
         const data = result["data"].map((workflowRecord) => {
           return new Workflow(workflowRecord)
         })
-        this.setState({ workflows: data });
+        this.setState({ workflows: data, loading: false });
       } else {
-        this.setState({ error: result });
+        this.setState({ error: result, loading: false });
       }
     } catch (err) {
-      this.setState({ error: err.message });
+      this.setState({ error: err.message, loading: false });
     }
   }
 
   render() {
 
-    const { workflows, error, showWorkflowForm, selectedWorkflow } = this.state;
+    const { workflows, error, showWorkflowForm, selectedWorkflow, loading } = this.state;
 
     return (
       <div className='workflow-list-container'>
-        {this.props.renderMenuButton()}
-        <h1>Workflow List</h1>
-        <Button
-          text="+ Add Workflow"
-          className="add-workflow-button"
-          onClick={this.handleAddWorkflow}
-        />
-        <DataGrid
+        <h1 className='page-title'>Workflow List</h1>
+        {loading ? <CLoader height="200px" /> : <DataGrid
           dataSource={workflows}
           keyExpr="id"
           showBorders={true}
+          width="100%"
+          columnMinWidth="150px"
+          showRowLines={true}
         >
-          <Column dataField="name" caption="Name" cellRender={({data}) => (
-            <p>{data.name()}</p>
-          )} />
-          <Column dataField="workflow_type" caption="Workflow Type" cellRender={({data}) => (
-            <p>{data.workflowType()}</p>
-          )} />
-          <Column dataField="is_published" caption="Is Published" cellRender={({data}) => (
-            <p>{data.isPublished() ? "Published" : "Unpublished"}</p>
-          )} />
+          <Column dataField="name" caption="Name" calculateCellValue={(data) => data.name()} />
+          <Column dataField="workflow_type" caption="Workflow Type" calculateCellValue={(data) => data.workflowType()} />
+          <Column dataField="is_published" caption="Is Published" calculateCellValue={(data) => data.isPublished() ? "Published" : "Unpublished"} />
           <Column caption="Actions" cellRender={({data}) => (
-            <Button onClick={(e) => {
-              window.location.href = `${window.location.origin}/workflows/${data.id()}`
-            }}>View Details</Button>
+            <Link to={`/workflows/${data.id()}`} className="ui button action-btn">{"View Details"}</Link>
           )} />
-        </DataGrid>
+          <Toolbar>
+            <Item location="after">
+              <Link to="/workflows/new" className="ui button add-workflow-button">{"+ Add Workflow"}</Link>
+            </Item>
+          </Toolbar>
+        </DataGrid>}
+        
 
       </div>
     )

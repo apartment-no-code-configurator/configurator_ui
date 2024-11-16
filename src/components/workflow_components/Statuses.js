@@ -4,7 +4,7 @@ import 'beautiful-react-diagrams/styles.css';
 import { Form, Tab, Button, Table } from 'semantic-ui-react';
 import { Status } from '../../lib/StatusLib';
 import StatusGraph from './GraphHooksNautanki';
-// import RightSideFormLayout from '../../util_components/RightSideFormLayout';
+import RightSideFormLayout from '../../util_components/RightSideFormLayout'
 import StatusForm from './StatusForm';
 import { refreshPage } from '../../utils/Utils';
 import { Variable } from '../../lib/VariableLib';
@@ -137,9 +137,7 @@ export default class Statuses extends Component {
 
   renderAddNewNodeButton = () => {
     return (
-      <div>
-        <Button className='add-new-status-button' onClick={this.enableNewStatusAddition}>Add a new Status</Button>
-      </div>
+      <Button className='add-new-status-button' onClick={this.enableNewStatusAddition}>Add a new Status</Button>
     )
   }
 
@@ -172,9 +170,9 @@ export default class Statuses extends Component {
     console.log(selectedStatus)
     console.log("---------")
     return (
-      <>
+      <RightSideFormLayout onClose={this.closeForm}>
         <StatusForm fetchWorkflow={this.props.fetchWorkflow} workflowId={workflowObj.id()} statusObj={newStatusSelected ? new Status({}, {}) : selectedStatus} closeForm={this.closeForm} rootStatusId={this.rootStatusId}/>
-      </>
+      </RightSideFormLayout>
     )
   }
 
@@ -302,9 +300,9 @@ export default class Statuses extends Component {
             {variableSelectedStatus.variables.map((variable) => (
               <tr key={variable.name}>
               <td>{variable.name}</td>
-              <td>
+              <td className='button-groups'>
                 <Button onClick={() => this.updateEditVariable(variable)} >Edit</Button>
-                <Button>Delete</Button>
+                <Button className='red'>Delete</Button>
               </td>
               </tr>
             ))}

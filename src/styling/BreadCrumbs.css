@@ -1,0 +1,14 @@
+.breadCrumbs {
+  display: inline-flex;
+  flex-direction: row;
+  gap: 8px;
+}
+
+.breadCrumbs .bread-crumb-item {
+  color: #000;
+}
+
+.breadCrumbs a.bread-crumb-item {
+  color: #000;
+  cursor: pointer;
+}

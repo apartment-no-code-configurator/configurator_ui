@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import RightSideFormLayout from '../../util_components/RightSideFormLayout'
 import AddStatusForm from './status_components/AddStatusForm'
 import EditStatusForm from './status_components/EditStatusForm'
 
@@ -10,7 +9,7 @@ export default class StatusForm extends Component {
       statusObj: this.props.statusObj,
       workflowId: this.props.workflowId,
       newStatus: this.props.statusObj.id ? false : true
-    }
+    };
     this.closeForm = this.props.closeForm;
   }
 
@@ -28,8 +27,9 @@ export default class StatusForm extends Component {
 
     return (
       <>
-        <RightSideFormLayout formTitle={newStatus ? "Add new status" : `Edit ${statusObj.content} status`} formComponent={this.formComponent()} onClose={this.closeForm} onBlur={this.closeForm}/>
+        <h3>{newStatus ? "Add new status" : `Edit "${statusObj.content}" status`}</h3>
+        {this.formComponent()}
       </>
-    )
+    );
   }
 }

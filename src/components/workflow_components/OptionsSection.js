@@ -54,7 +54,7 @@ class OptionsSection extends Component {
                     }
 
                   }}>{ clickedIndex === index ? "Save Changes" : "Edit Option"}</Button>
-                  <Button onClick={(event) => this.deleteOption(event, index)}>Delete</Button>
+                  <button type="button" className="ui button red" onClick={(event) => this.deleteOption(event, index)}>Delete</button>
                 </TableCell>
               </Table.Row>
             ))}

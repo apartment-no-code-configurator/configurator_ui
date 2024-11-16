@@ -7,21 +7,26 @@ import WorkflowDetails from './WorkflowDetails';
 import Statuses from './Statuses';
 import { Status } from '../../lib/StatusLib';
 import { API_HOST } from '../../utils/Constants';
+import BreadCrumbs from '../BreadCrumbs';
+import { CLoader } from '../../utils/CLoader';
 
 //please fix this component to be able to pass workflowObj and statuses to WorkflowDetails component
+
 class WorkflowForm extends Component {
 
   constructor(props){
     super(props);
     const segments = window.location.href.split('/').filter(segment => segment);
     const workflowId =  segments.pop();
+    this.isNew = workflowId === "new";
 
     this.state = {
-      workflowId: workflowId === "new" ? null : workflowId,
+      workflowId: this.isNew ? null : workflowId,
       workflowObj: null,
       chatbots: [],
       error: null,
-      activePaneIndex: 0
+      activePaneIndex: 0,
+      loading: this.isNew ? false : true
     }
   }
 
@@ -58,12 +63,12 @@ class WorkflowForm extends Component {
         const data = result["data"].map((chatBotRecord) => {
           return new Chatbot(chatBotRecord)
         })
-        this.setState({ chatbots: data });
+        this.setState({ chatbots: data, loading: false });
       } else {
-        this.setState({ error: result });
+        this.setState({ error: result, loading: false });
       }
     } catch (err) {
-      this.setState({ error: err.message });
+      this.setState({ error: err.message, loading: false });
     }
   };
 
@@ -89,14 +94,15 @@ class WorkflowForm extends Component {
 
         this.setState({
           chatbots: chatbots,
-          workflowObj: workflowObj
+          workflowObj: workflowObj,
+          loading: false
         });
         console.log("Updating state")
       } else {
-        this.setState({ error: result });
+        this.setState({ error: result, loading: false });
       }
     } catch (err) {
-      this.setState({ error: err.message });
+      this.setState({ error: err.message, loading: false });
     }
   }
 
@@ -157,16 +163,18 @@ class WorkflowForm extends Component {
   };
 
   render() {
-    const { activePaneIndex, workflowObj, workflowId } = this.state;
-
+    const { activePaneIndex, workflowObj, workflowId, loading } = this.state;
+    const breadCrumbItems = [
+      {label: "Workflow List", link: "/workflows"},
+      {label: this.isNew ? "New" : workflowObj?.name()}
+    ];
     return (
       <div className="workflow-form-container">
-        {this.props.renderMenuButton()}
-        <a href={`${window.location.origin}/workflows`} className={"bread-crumb"}>
-          Go to Workflows list
-        </a>
+        <BreadCrumbs items={breadCrumbItems} />
         <h1>Workflow Details</h1>
-        { (workflowObj && workflowId) || !workflowId ? <Tab panes={this.panes()} activeIndex={activePaneIndex} onTabChange={this.handleTabChange}/> : <></>}
+        {loading ? <CLoader /> : (
+          (workflowObj && workflowId) || !workflowId ? <Tab panes={this.panes()} activeIndex={activePaneIndex} onTabChange={this.handleTabChange}/> : ""
+        )}
       </div>
     )
   }

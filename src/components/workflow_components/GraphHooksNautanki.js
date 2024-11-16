@@ -19,8 +19,12 @@ const StatusGraph = ({ nodes, links }) => {
   // console.log("-----------------")
   const [schema, { onChange }] = useSchema(initialSchema);
 
+  const styles = {
+    height: "350px", position: "relative", margin: "10px 0", overflow: "auto"
+  }
+
   return (
-    <div style={{ height: '30rem', marginLeft: "50px", marginRight: "50px", marginBottom: "30px", marginTop: "10px"}} >
+    <div style={styles} className='status-graph'>
       <Diagram schema={schema} onChange={onChange} />
     </div>
   );

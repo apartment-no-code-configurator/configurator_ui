@@ -58,7 +58,7 @@ class Register extends Component {
           <input type="text" onChange={(event) => this.handleChange(event,"aoa_number")} placeholder="AOA number" required />
           <input type="password" onChange={(event) => this.handleChange(event,"password")} placeholder="Password" required />
           <input type="email" onChange={(event) => this.handleChange(event,"email")} placeholder="Society email" required />
-          <button type="submit" onClick={this.handleSubmit}>Join Now</button>
+          <button type="submit" class="ui button" onClick={this.handleSubmit}>Join Now</button>
         </form>
       </div>
     );

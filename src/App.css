@@ -1,113 +1,223 @@
-/* App.css */
-.navbar {
-  display: flex;
-  justify-content: space-around;
-  background-color: #333;
-  padding: 1rem;
-}
+  /* App.css */
+  :root {
+    --black: #10172A;
+    --white: #fff;
+    --border-grey: #ddd;
+    --blue: #0991b1;
+    --blue-dark: #08829f;
+    --red: #d1480f;
+    --red-dark: #BA400D;
+  }
 
-dx-license {
-  display: none !important;
-}
+  .app-container {
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+  }
 
-.nav-link {
-  color: white;
-  text-decoration: none;
-}
+  .app-container input {
+    outline-color: var(--blue);
+  }
 
-.sidebar-content {
-  display: flex;
-  flex-direction: column;
-  padding: 1rem;
-}
+  .navbar {
+    display: flex;
+    justify-content: space-around;
+    background-color: var(--black);
+    padding: 1rem;
+    gap: 12px;
+    height: 52px;
+    text-align: center;
+    flex-shrink: 0;
+  }
 
-.sidebar-content a {
-  text-decoration: none;
-  color: black;
-  padding: 0.5rem 0;
-}
+  .app-container .page-content {
+    flex-grow: 1;
+    max-height: calc(100vh - 52px);
+    overflow: auto;
+    padding: 1rem
+  }
 
-.active-link {
-  font-weight: bold;
-}
+  .navbar .nav-item:not(.menu) {
+    flex-grow: 1;
+  }
 
-button {
-  margin: 1rem;
-}
+  .navbar .nav-item.menu {
+    flex-grow: 0;
+    flex-shrink: 0;
+    margin-right: auto;
+  }
 
-.App {
-  display: flex;
-  flex-direction: column;
-}
+  .navbar .nav-items {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+  }
 
-.menu-button {
-  margin-top: 20px;
-  margin-left: 85%;
-  width: 100px;
-  float: right;
-  background-color: #fff;
-  border-color: #ddd;
-  color: #333;
-  margin-bottom: 20px;
-}
+  dx-license {
+    display: none !important;
+  }
 
-.add-chatbot-button, .add-workflow-button {
-  margin-left: 92.20%;
-  margin-bottom: 20px;
-}
+  .nav-item {
+    color: white;
+    font-size: 16px;
+    text-decoration: none;
+    line-height: 19px;
+  }
 
-.chatbot-list-container, .workflow-list-container {
-  width: 90%;
-  margin-left: 30px;
-  margin-top: 10px;
-  margin-right: 10px;
-  margin-bottom: 10px;
-}
+  .nav-item:focus, .nav-item:hover, .nav-item.active {
+    color : var(--white);
+    font-weight: bold;
+    text-decoration: underline;
+    text-decoration-color: var(--blue);
+    text-underline-offset: 4px;
+  }
 
-body > dx-license:nth-child(1) {
-  display: none;
-}
+  .sidebar-menu {
+    display: flex;
+    flex-direction: column;
+  }
 
-.chatbot-list-container > .add-chatbot-form {
-  width: 500px;
-}
+  .sidebar-menu .sidebar-menu-item {
+    text-decoration: none;
+    color: var(--black);
+    border-bottom: 1px solid var(--border-grey);
+    padding: 1rem;
+    cursor: pointer;
+    font-size: 16px;
+  }
 
-.input-generic {
-  margin: 2.5px
-}
+  .sidebar-menu-item.active {
+    font-weight: bold;
+    background: var(--blue-dark);
+    color: var(--white);
+  }
 
-.bread-crumb {
-  display: block;
-  width: 100%;
-}
+  button {
+    margin: 1rem;
+  }
 
-.workflow-form-container {
-  padding-top: 2%;
-  padding-left: 5%;
-  padding-right: 5%;
-}
+  .menu-button {
+    margin-top: 20px;
+    margin-left: 85%;
+    width: 100px;
+    float: right;
+    background-color: #fff;
+    border-color: var(--border-grey);
+    color: #333;
+    margin-bottom: 20px;
+  }
 
-.ui.button.add-new-status-button {
-  margin-left: 50px;
-  margin-top: 10px;
-  width: 150px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
+  body > dx-license:nth-child(1) {
+    display: none;
+  }
 
-.add-status-form {
-  margin-top: 15px;
-  padding: 15px
-}
+  .chatbot-list-container > .add-chatbot-form {
+    width: 500px;
+  }
 
-.status-variable-form {
-  margin-bottom: 25px;
-}
+  .input-generic {
+    margin: 2.5px
+  }
 
-.workflow-form-container div div.ui.bottom.attached.segment.active.tab div.status-variable-form form.ui.form div.field table.ui.table tr th, .workflow-form-container div div.ui.bottom.attached.segment.active.tab div.status-variable-form form.ui.form div.field table.ui.table tr td {
-  padding: 5px;
-  border-width: 1px;
-}
+  .bread-crumb {
+    display: block;
+    width: 100%;
+  }
 
-#variable-centered-modal {
-}
+  .workflow-form-container {
+    padding-top: 2%;
+    padding-left: 5%;
+    padding-right: 5%;
+  }
+
+  .add-status-form {
+    margin-top: 15px;
+    padding: 15px
+  }
+
+  .status-variable-form {
+    margin-bottom: 25px;
+  }
+
+  .workflow-form-container div div.ui.bottom.attached.segment.active.tab div.status-variable-form form.ui.form div.field table.ui.table tr th, .workflow-form-container div div.ui.bottom.attached.segment.active.tab div.status-variable-form form.ui.form div.field table.ui.table tr td {
+    padding: 5px;
+    border-width: 1px;
+  }
+
+  h1.page-title {
+    margin: 12px 0;
+  }
+
+  /* Datagrid styles */
+
+  .dx-datagrid {
+    overflow: auto;
+    color: #333;
+  }
+
+  .dx-datagrid td[role="columnheader"] {
+    padding: 12px 7px;
+  }
+
+  .dx-datagrid td[role="columnheader"] .dx-datagrid-text-content {
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+  }
+
+  .dx-datagrid-content .dx-datagrid-table .dx-row > td {
+    vertical-align: middle;
+  }
+
+  .dx-datagrid .action-btn .dx-button-content {
+    padding: 4px 8px;
+  }
+
+  /* datagrid styles end */
+
+  /* button styles */
+
+  .app-container .ui.button {
+    background: var(--blue);
+    border: 1px solid var(--blue-dark);
+    padding: 8px 16px;
+    color: var(--white);
+    margin: 0;
+    line-height: 1.2;
+  }
+
+  .app-container .ui.button:hover,
+  .app-container .ui.button:focus,
+  .app-container .ui.button:active {
+    background: var(--blue-dark);
+  }
+
+  .app-container .ui.button.red {
+    background: var(--red);
+    border: 1px solid var(--red-dark);
+  }
+
+  .app-container .ui.button.red:hover,
+  .app-container .ui.button.red:focus,
+  .app-container .ui.button.red:active {
+    background: var(--red-dark);
+  }
+
+  .app-container h3 {
+    margin: 0 0 24px;
+  }
+
+  .app-container .status-graph .bi-diagram {
+    overflow: auto;
+  }
+
+  .app-container .status-graph .bi.bi-diagram .bi-link-canvas-layer {
+    overflow: visible;
+  }
+
+  .button-groups {
+    display: flex;
+    flex-direction: row;
+    gap: 4px;
+    padding: 4px 0;
+  }

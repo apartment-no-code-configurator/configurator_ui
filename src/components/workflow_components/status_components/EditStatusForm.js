@@ -181,7 +181,7 @@ export default class EditStatusForm extends Component {
                     <Table.Row key={index}>
                       <Table.Cell>{eligibleParentStatuses.find(status => status.key === parentId)?.text}</Table.Cell>
                       <Table.Cell>
-                        <Button className="delete-button" onClick={() => this.deleteParentStatus(index)}>Delete</Button>
+                        <button className="ui button red delete-button" onClick={() => this.deleteParentStatus(index)}>Delete</button>
                       </Table.Cell>
                     </Table.Row>
                   ))}
@@ -229,7 +229,7 @@ export default class EditStatusForm extends Component {
                     <Table.Row key={index}>
                       <Table.Cell>{eligibleChildrenStatuses.find(status => status.key === child.id)?.text}</Table.Cell>
                       <Table.Cell>
-                        <Button className="delete-button" onClick={() => this.deleteChildStatus(index)}>Delete</Button>
+                        <Button className="red delete-button" onClick={() => this.deleteChildStatus(index)}>Delete</Button>
                       </Table.Cell>
                     </Table.Row>
                   ))}

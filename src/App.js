@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Routes, Link, NavLink } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, NavLink } from 'react-router-dom';
+import { CiMenuFries } from "react-icons/ci";
 import Sidebar from 'react-sidebar';
 import Home from './components/Home.js';
 import Login from './components/Login.js';
@@ -7,10 +8,11 @@ import Register from './components/Register.js';
 import ChatbotList from './components/chatbot_components/ChatbotList.js';
 import WorkflowList from './components/workflow_components/WorkflowList.js';
 import WorkflowForm from './components/workflow_components/WorkflowForm.js'
+import 'devextreme/dist/css/dx.light.css';
 import Button from 'devextreme-react/button';
 import './App.css';  // Import the CSS for global styles and the App component
 import 'beautiful-react-diagrams/styles.css';
-import { useParams } from 'react-router-dom'
+import { navItems, menuItems } from './constants.js';
 
 class App extends Component {
 
@@ -36,24 +38,23 @@ class App extends Component {
 
   renderMenuButton = () => {
     const localStorageToken = localStorage.getItem('apartix_session_id')
-    return (localStorageToken && <Button className="menu-button" onClick={() => this.onSetSidebarOpen(true)}>Menu</Button>)
+    return (localStorageToken && (
+      <a className='nav-item menu'>
+        <CiMenuFries color='#fff' size={"24px"} onClick={() => this.onSetSidebarOpen(true)} />
+      </a>
+    ))
   }
 
   render() {
     const sidebarContent = (
-      <div className="sidebar-content">
-        <NavLink to="/chatbots" activeClassName="active-link">
-          Chatbots
-        </NavLink>
-        <NavLink to="/workflows" activeClassName="active-link">
-          Workflows
-        </NavLink>
-        <NavLink to="/user_management" activeClassName="active-link">
-          User Management
-        </NavLink>
-        <NavLink to="/society_details" activeClassName="active-link">
-          Society Details
-        </NavLink>
+      <div className="sidebar-menu">
+        {menuItems.map((item) => {
+          return (
+            <NavLink to={item.link} key={`menu-item_${item.label}`} className="sidebar-menu-item">
+              {item.label}
+            </NavLink>
+          );
+        })}
       </div>)
     return (
       <Router>
@@ -61,29 +62,36 @@ class App extends Component {
           sidebar={sidebarContent}
           open={this.state.sidebarOpen}
           onSetOpen={this.onSetSidebarOpen}
-          styles={{ sidebar: { background: "white", width: "250px" } }}
+          styles={{ sidebar: { background: "#fff", width: "250px" } }}
         >
-          <div className="App">
+          <div className="app-container">
             <nav className="navbar">
-              <Link to="/" className="nav-link">Home</Link>
-              {
-                localStorage.getItem('apartix_session_id') ? "" : <Link to="/login" className="nav-link">Login</Link>
-              }
-              <Link to="/register" className="nav-link">Register</Link>
+              {this.renderMenuButton()}
+              <div className='nav-items'>
+                {navItems.map((item) => {
+                  return item.show ? (
+                    <NavLink to={item.link} key={`nav-item_${item.label}`} className="nav-item">
+                      {item.label}
+                    </NavLink>
+                  ) : ""
+                })}
+              </div>
             </nav>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
-              <Route path="/home" element={<ChatbotList renderMenuButton={this.renderMenuButton}/>} />
-              <Route path="/chatbots" element={<Login />} />
-              <Route path="/workflows/:workflowId" element={
-                <WorkflowForm renderMenuButton={this.renderMenuButton}/>
-              } />
-              <Route path="/workflows" element={<WorkflowList renderMenuButton={this.renderMenuButton}/>} />
-              {/* <Route path="/user_management" element={<UserManagement />} /> */}
-              {/* <Route path="/society_details" element={<SocietyDetails />} /> */}
-            </Routes>
+            <div className='page-content'>
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
+                <Route path="/home" element={<ChatbotList />} />
+                <Route path="/chatbots" element={<Login />} />
+                <Route path="/workflows/:workflowId" element={
+                  <WorkflowForm />
+                } />
+                <Route path="/workflows" element={<WorkflowList />} />
+                {/* <Route path="/user_management" element={<UserManagement />} /> */}
+                {/* <Route path="/society_details" element={<SocietyDetails />} /> */}
+              </Routes>
+            </div>
           </div>
         </Sidebar>
       </Router>

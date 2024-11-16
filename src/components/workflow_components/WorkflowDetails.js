@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Workflow } from '../../lib/WorkflowLib';
 import { Form, Button, Checkbox, Dropdown } from 'semantic-ui-react';
+import "../../styling/WorkflowDetails.css";
 
 export default class WorkflowDetails extends Component {
 
@@ -9,8 +10,7 @@ export default class WorkflowDetails extends Component {
     this.state = {
       workflowObj: this.props.workflowObj ? this.props.workflowObj : Workflow.generateEmptyWorkflowObject(),
       chatbots: this.props.chatbots
-    }
-    // debugger;
+    };
   }
 
   chatBotDropdownOptions = () => {
@@ -68,11 +68,10 @@ export default class WorkflowDetails extends Component {
 
   renderForm = () => {
     const { workflowObj } = this.state;
-
     return (
       <Form onSubmit={this.handleSubmit}>
         <Form.Field required>
-          <label>Workflow Name</label>
+          <label htmlFor='name'>Workflow Name</label>
           <input
             required={true}
             placeholder='Workflow Name'
@@ -82,7 +81,7 @@ export default class WorkflowDetails extends Component {
           />
         </Form.Field>
         <Form.Field required>
-          <label>Workflow Type</label>
+          <label htmlFor='workflow_type'>Workflow Type</label>
           <input
             disabled={true}
             placeholder='Worfklow Type'
@@ -92,7 +91,7 @@ export default class WorkflowDetails extends Component {
           />
         </Form.Field>
         <Form.Field required>
-          <label>Linked Chat Bot</label>
+          <label htmlFor='chat_bot_id'>Linked Chat Bot</label>
           <Dropdown
             required={true}
             placeholder='Select an option'
@@ -120,11 +119,11 @@ export default class WorkflowDetails extends Component {
 
   render() {
     return (
-      <div>
-        <h3>
-          Initial Details
-          {this.renderForm()}
+      <div className='workflow-tab-content'>
+        <h3 className='tab-heading'>
+          {"Initial Details"}
         </h3>
+        {this.renderForm()}
       </div>
     )
   }

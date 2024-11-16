@@ -90,7 +90,6 @@ class ChatbotList extends Component {
 
     return (
       <div className='chatbot-list-container'>
-        {this.props.renderMenuButton()}
         {error && <p>Error: {error}</p>}
         {showChatbotForm && <AddChatbot chatbot={selectedChatbot} sidebarOpen={true} handleSidebarClose={this.closeAddChatbotSidebar} updateChatBotList={this.updateChatBotList} />}
         <Button

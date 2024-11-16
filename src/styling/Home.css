@@ -11,7 +11,7 @@
 }
 
 .home-container h1 {
-  color: #0073b1;
+  color: var(--blue-dark);
 }
 
 .home-container p {
