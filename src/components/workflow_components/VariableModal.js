@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Modal, Button, Form } from 'semantic-ui-react';
 import OptionsSection from './OptionsSection';
+import { IoCloseOutline } from "react-icons/io5";
 
 export default class VariableModal extends Component {
 
@@ -13,14 +14,23 @@ export default class VariableModal extends Component {
     }
   }
 
+  closeModal = (event) => {
+    event.preventDefault();
+    const { originalVariable } = this.state;
+
+    this.setState({
+      selectedVariable: originalVariable
+    })
+    this.props.closeModal()
+  }
+
   render() {
     const { selectedVariable } = this.state;
 
     return (
-      <Modal open={selectedVariable !== null} id="variable-centered-modal" style={{
-        "marginLeft": "15%",
-        "marginTop": "10%",
-        "height": "70%"
+      <Modal open={selectedVariable !== null} onClose={this.closeModal} closeIcon={<IoCloseOutline className='modal-close-icon'/>} id="variable-centered-modal" style={{
+        height: "70%",
+        overflow: "auto"
       }}>
         <Modal.Header>Edit Variable</Modal.Header>
         <Modal.Content>
@@ -85,15 +95,7 @@ export default class VariableModal extends Component {
               })
             }
           }}>Save Changes</Button>
-          <Button onClick={(event) => {
-            event.preventDefault();
-            const { originalVariable } = this.state;
-
-            this.setState({
-              selectedVariable: originalVariable
-            })
-            this.props.closeModal()
-          }}>Close</Button>
+          <Button onClick={this.closeModal}>Close</Button>
         </Modal.Actions>
       </Modal>
     );

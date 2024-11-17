@@ -72,33 +72,24 @@ export default class AddStatusForm extends Component {
 
     return (
       <Form className="add-status-form">
-        <Form.Group>
-          <label style={{"marginRight": "15px"}}>
-            {"Status Label"}
-          </label>
-          <Input requied onChange={(event) => this.handleLabelValueChange(event)}>
-          </Input>
-        </Form.Group>
-
-        {
-          eligibleParentStatuses.length > 0 ? (
-          <>
-            <Form.Group>
-              <label>Parent Status </label>
-            </Form.Group>
-            <Form.Group>
-              <Dropdown
+        <Form.Field>
+          <label htmlFor='status-label'>Status Label</label>
+          <Input requied style={{width: "200px"}} onChange={(event) => this.handleLabelValueChange(event)} />
+        </Form.Field>
+        {eligibleParentStatuses.length > 0 ? (
+          <Form.Field>
+            <label htmlFor='parent-status'>Parent Status</label>
+            <Dropdown
+              name="parent-status"
               placeholder='Select Parent Status'
               fluid
               selection
               options={eligibleParentStatuses}
               onChange={(e, { name, value }) => this.handleParentStatusChange(e, { name, value })}
             />
-            </Form.Group>
-            <Button onClick={this.createStatus}>Create Status</Button>
-          </>) : <></>
-        }
-
+          </Form.Field>
+        ) : ""}
+        <Button type="submit" onClick={this.createStatus}>Create Status</Button>
       </Form>
     )
   }
