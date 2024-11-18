@@ -60,18 +60,26 @@ export default class AddStatusForm extends Component {
     this.parentStatusId = value;
   }
 
-  createStatus = (event) => {
+  createStatus = async (event) => {
     event.preventDefault();
     const { statusObj } = this.state;
-    statusObj.createStatus(this.parentStatusId, this.newValueLabelValue)
+    this.setState({
+      loading: true
+    });
+    const response = await statusObj.createStatus(this.parentStatusId, this.newValueLabelValue);
+    if (response.status === 201) {
+      this.setState({
+        loading: false
+      });
+      this.props.closeForm(response);
+    }
   }
 
   render() {
 
-    const { eligibleParentStatuses } = this.state;
-
+    const { eligibleParentStatuses, loading } = this.state;
     return (
-      <Form className="add-status-form">
+      <Form className={`add-status-form ${loading ? "loading" : ""}`} onSubmit={this.createStatus}>
         <Form.Field>
           <label htmlFor='status-label'>Status Label</label>
           <Input requied style={{width: "200px"}} onChange={(event) => this.handleLabelValueChange(event)} />
@@ -89,7 +97,7 @@ export default class AddStatusForm extends Component {
             />
           </Form.Field>
         ) : ""}
-        <Button type="submit" onClick={this.createStatus}>Create Status</Button>
+        <Button type="submit">Create Status</Button>
       </Form>
     )
   }

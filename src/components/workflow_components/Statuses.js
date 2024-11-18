@@ -1,16 +1,14 @@
 import React, { Component } from 'react';
 // import Diagram, { createSchema, useSchema } from 'beautiful-react-diagrams';
 import 'beautiful-react-diagrams/styles.css';
-import { Form, Tab, Button, Segment, Modal, ModalHeader, ModalContent, ModalActions, Image, ModalDescription } from 'semantic-ui-react';
+import { Form, Tab, Button, Segment, Modal } from 'semantic-ui-react';
 import { Status } from '../../lib/StatusLib';
 import StatusGraph from './GraphHooksNautanki';
 import RightSideFormLayout from '../../util_components/RightSideFormLayout'
 import StatusForm from './StatusForm';
-import { refreshPage } from '../../utils/Utils';
 import { Variable } from '../../lib/VariableLib';
 import VariableModal from './VariableModal';
-import { dataTypes } from '../../constants';
-import { CiEdit } from "react-icons/ci";
+import { DATA_TYPES } from '../../constants';
 import { FaRegEdit, FaRegTrashAlt } from "react-icons/fa";
 import { IoCloseOutline } from "react-icons/io5";
 
@@ -77,15 +75,20 @@ export default class Statuses extends Component {
         break;
       }
     }
-    return statuses
+    return statuses;
   }
 
-  closeForm = () => {
+  closeForm = (response) => {
+    const _this = this;
     const { newStatusSelected } = this.state;
     if (newStatusSelected) {
       this.setState({
         newStatusSelected: false
-      })
+      }, () => {
+        if (response?.status === 201) {
+          _this.props.fetchWorkflow();
+        }
+      });
     } else {
       this.setState({
         selectedStatus: null
@@ -221,6 +224,7 @@ export default class Statuses extends Component {
         
         <Modal
           open={showAddNewVariablePopup}
+          className='app-modal'
           closeIcon={<IoCloseOutline className='modal-close-icon'/>}
           onClose={() => {
             this.setState({showAddNewVariablePopup: false})
@@ -259,7 +263,7 @@ export default class Statuses extends Component {
                     this.setState({ newVariable: newVariable })
                   }}
                   placeholder='Select Type'
-                  options={dataTypes}
+                  options={DATA_TYPES}
                 />
               </Form.Group>
 

@@ -176,7 +176,8 @@ h1.page-title {
 
 /* button styles */
 
-.app-container .ui.button {
+.app-container .ui.button,
+.app-modal .ui.button {
   background: var(--blue);
   border: 1px solid var(--blue-dark);
   padding: 8px 16px;
@@ -187,7 +188,10 @@ h1.page-title {
 
 .app-container .ui.button:hover,
 .app-container .ui.button:focus,
-.app-container .ui.button:active {
+.app-container .ui.button:active,
+.app-modal .ui.button:hover,
+.app-modal .ui.button:focus,
+.app-modal .ui.button:active {
   background: var(--blue-dark);
 }
 
@@ -248,18 +252,32 @@ h1.page-title {
   text-align: right;
 }
 
-.variable-list-item .actions>* {
+.variable-list-item .actions > *,
+.action-icons > *  {
   cursor: pointer;
   font-size: 16px;
   line-height: 19px;
 }
 
-.variable-list-item .actions .edit {
+.action-icons {
+  display: flex;
+  flex-direction: row;
+  flex-shrink: 0;
+  gap: 12px;
+}
+
+.variable-list-item .actions .edit,
+.action-icons .edit {
   color: var(--blue-dark);
 }
 
-.variable-list-item .actions .delete {
+.variable-list-item .actions .delete,
+.action-icons .delete {
   color: var(--red-dark);
+}
+
+.action-icons .save {
+  color: var(--blue-dark);
 }
 
 .modal-close-icon {
@@ -293,4 +311,49 @@ h1.page-title {
 .add-new-tag-link:hover {
   font-weight: bold;
   text-decoration-thickness: 2px;
+}
+
+.options-table {
+  display: grid;
+  grid-template-rows: auto auto;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-family: Arial, sans-serif;
+  overflow: hidden;
+}
+
+.options-headers {
+  display: grid;
+  grid-template-columns: 1fr 1fr 2fr 0.5fr;
+  background-color: var(--border-grey);
+  font-weight: bold;
+  text-align: left;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border-grey);
+  gap: 12px;
+}
+
+.options-list-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr 2fr  0.5fr;
+  align-items: center;
+  padding: 8px 12px;
+  border-top: 1px solid var(--border-grey);
+  gap: 12px;
+}
+
+.option-item {
+  display: flex;
+  align-items: center;
+}
+
+/* Multiselect Dropdown */
+
+.ui.selection.dropdown .menu > .item.msd-dropdown-item {
+  padding: 0 !important;
+}
+
+.ui.selection.dropdown .menu > .item.msd-dropdown-item .ui.checkbox {
+  width: 100%;
+  padding: 8px 12px;
 }

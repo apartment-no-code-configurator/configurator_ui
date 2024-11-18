@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { Form, Input, Dropdown, Label, Button } from 'semantic-ui-react';
+import { Form, Input, Dropdown, Button, Label } from 'semantic-ui-react';
 import { Table } from 'semantic-ui-react';
 import { API_HOST } from '../../../utils/Constants';
+import MultiSelectDropdown from "../../../utils/MultiSelectDropdown";
 
 export default class EditStatusForm extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -15,7 +15,8 @@ export default class EditStatusForm extends Component {
       eligibleParentStatuses: [],
       eligibleChildrenStatuses: [],
       newParent: null,
-      newChild: null
+      newChild: null,
+      loading: true
     }
   }
 
@@ -35,26 +36,35 @@ export default class EditStatusForm extends Component {
       });
       const result = await response.json();
       if (response.ok) {
-
-        const eligibleParentStatuses = result["data"].map((status) => {
-          return {
-            key: status["id"],
-            text: status["label"],
-            value: status["id"]
+        const {childrenIds, parentIds} = {...this.state.statusObj};
+        const eligibleParentStatuses = [];
+        result["data"].forEach((status) => {
+          if (status["key"] !== statusObj.id) {
+            eligibleParentStatuses.push({
+              key: status["id"],
+              text: status["label"],
+              value: status["id"],
+              selected: parentIds?.includes(status["id"]) ? true : false
+            })
           }
-        }).filter((status) => status["key"] !== statusObj.id)
+        });
 
-        const eligibleChildrenStatuses = result["data"].filter((status) => status.id !== rootStatusId).map((status) => {
-          return {
-            key: status["id"],
-            text: status["label"],
-            value: status["id"]
+        const eligibleChildrenStatuses = [];
+        result["data"].forEach((status) => {
+          if (status.id !== rootStatusId && status["key"] !== statusObj.id)  {
+            eligibleChildrenStatuses.push({
+              key: status["id"],
+              text: status["label"],
+              value: status["id"],
+              selected: childrenIds?.includes(status["id"]) ? true : false
+            });
           }
-        }).filter((status) => status["key"] !== statusObj.id)
+        });
 
         this.setState({
           eligibleParentStatuses,
-          eligibleChildrenStatuses
+          eligibleChildrenStatuses,
+          loading: false
         })
       } else {
         throw response
@@ -68,19 +78,33 @@ export default class EditStatusForm extends Component {
     this.getEligibleParentAndChildrenStatuses()
   }
 
-  handleLabelValueChange = (event) => {
-    const { value } = event.target;
+  handleLabelValueChange = (event, data) => {
     const { statusObj } = this.state;
-    statusObj.setLabel(value);
+    statusObj.setLabel(data.value);
     this.setState({
       statusObj
     })
   }
 
-  editStatusName = (event) => {
+  updateStatus = (event) => {
     event.preventDefault();
-    const { statusObj } = this.state;
-    statusObj.editStatusName();
+    const { statusObj, eligibleChildrenStatuses, eligibleParentStatuses } = this.state;
+    // statusObj.editStatusName();
+    console.log(statusObj);
+    const parentIds = [], childrenIds = [];
+    eligibleParentStatuses.forEach((item) => {
+      if (item.selected) {
+        parentIds.push(item.key);
+      }
+    });
+    eligibleChildrenStatuses.forEach((item) => {
+      if (item.selected) {
+        childrenIds.push(item.key);
+      }
+    });
+    console.log(parentIds, childrenIds);
+
+    // To call Api
     this.props.fetchWorkflow()
   }
 
@@ -143,122 +167,42 @@ export default class EditStatusForm extends Component {
   }
 
   render() {
+    const { eligibleParentStatuses, eligibleChildrenStatuses, statusObj, loading } = this.state;
 
-    const { eligibleParentStatuses, eligibleChildrenStatuses, statusObj } = this.state;
-    const eligibleNewParentStatuses = eligibleParentStatuses.filter((status) => !statusObj.parentIds.includes(status["key"]))
-    const eligibleNewChildrenStatuses = eligibleChildrenStatuses.filter((status) => !statusObj.childrenIds.includes(status["key"]));
-
-    console.log("eligibleParentStatuses", eligibleParentStatuses)
-    console.log("eligibleChildrenStatuses", eligibleChildrenStatuses)
     return (
-      <Form className="add-status-form">
-        <Form.Group>
-          <label style={{"marginRight": "15px"}}>
-            {"Status Label"}
-          </label>
-          <Input requied onChange={(event) => this.handleLabelValueChange(event)} value={this.state.statusObj.content}>
-          </Input>
-          <Button style={{"marginLeft": "400px"}} onClick={this.editStatusName}>Edit Status Name</Button>
+      <Form className={`edit-status-form ${loading ? "loading" : ""}`} onSubmit={this.updateStatus}>
+        <Form.Input
+          label="Label"
+          name="label"
+          value={this.state.statusObj.content}
+          onChange={this.handleLabelValueChange}
+        />
+        <h5>Status Linking</h5>
+        <Form.Group widths="equal">
+          <Form.Field>
+            <MultiSelectDropdown
+              label="Parent Statuses"
+              options={eligibleParentStatuses}
+              onChange={(eligibleNewParentStatuses) => {
+                this.setState({
+                  eligibleNewParentStatuses 
+                })
+              }}
+            />
+          </Form.Field>
+          <Form.Field>
+            <MultiSelectDropdown
+              label="Child Statuses"
+              options={eligibleChildrenStatuses}
+              onChange={(eligibleNewChildrenStatuses) => {
+                this.setState({
+                  eligibleNewChildrenStatuses
+                })
+              }}
+            />
+          </Form.Field>
         </Form.Group>
-
-        {/* TO-DO: Make a border around the given sections for parent statuses */}
-        {
-          !statusObj.startStatus && statusObj.parentIds.length > 0 ? (
-          <>
-            <Form.Group>
-              <label>Current Parent Statuses </label>
-            </Form.Group>
-            <Form.Group>
-              <Table celled>
-                <Table.Header>
-                  <Table.Row>
-                    <Table.HeaderCell>Parent Status</Table.HeaderCell>
-                    <Table.HeaderCell>Action</Table.HeaderCell>
-                  </Table.Row>
-                </Table.Header>
-                <Table.Body>
-                  {statusObj.parentIds.map((parentId, index) => (
-                    <Table.Row key={index}>
-                      <Table.Cell>{eligibleParentStatuses.find(status => status.key === parentId)?.text}</Table.Cell>
-                      <Table.Cell>
-                        <button className="ui button red delete-button" onClick={() => this.deleteParentStatus(index)}>Delete</button>
-                      </Table.Cell>
-                    </Table.Row>
-                  ))}
-                </Table.Body>
-              </Table>
-            </Form.Group>
-            {(eligibleNewParentStatuses.length > 0) ? (
-              <>
-                <Form.Group>
-                  <label>Add new parent status </label>
-                </Form.Group>
-                <Form.Group>
-                  <Dropdown
-                    placeholder='Select New Parent Status'
-                    fluid
-                    selection
-                    options={eligibleNewParentStatuses}
-                    onChange={(e, { name, value }) => this.handleParentStatusChange(e, { name, value })}
-                  />
-                </Form.Group>
-                <Button onClick={this.editParentStatus}>Add Parent Status</Button>
-              </>
-            ) : <></>}
-
-          </>) : <></>
-        }
-        <br></br>
-        {/* TO-DO: Make a border around the given sections for parent statuses */}
-        {
-          statusObj.children.length > 0 ? (
-          <>
-            <Form.Group>
-              <label>Current Child Statuses </label>
-            </Form.Group>
-            <Form.Group>
-              <Table celled>
-                <Table.Header>
-                  <Table.Row>
-                    <Table.HeaderCell>Child Status</Table.HeaderCell>
-                    <Table.HeaderCell>Action</Table.HeaderCell>
-                  </Table.Row>
-                </Table.Header>
-                <Table.Body>
-                  {eligibleChildrenStatuses.length > 0 && statusObj.children.map((child, index) => (
-                    <Table.Row key={index}>
-                      <Table.Cell>{eligibleChildrenStatuses.find(status => status.key === child.id)?.text}</Table.Cell>
-                      <Table.Cell>
-                        <Button className="red delete-button" onClick={() => this.deleteChildStatus(index)}>Delete</Button>
-                      </Table.Cell>
-                    </Table.Row>
-                  ))}
-                </Table.Body>
-              </Table>
-            </Form.Group>
-
-          </>) : <></>
-        }
-        {eligibleNewChildrenStatuses.length > 0 ? (
-          <>
-            <Form.Group>
-              <label>Add new child status </label>
-            </Form.Group>
-            <Form.Group>
-              <Dropdown
-                placeholder='Select New Child Status'
-                fluid
-                selection
-                options={eligibleNewChildrenStatuses}
-                onChange={(e, { name, value }) => this.handleChildStatusChange(e, { name, value })}
-              />
-            </Form.Group>
-
-            <Button onClick={this.editChildStatus}>Add Child Status</Button>
-          </>
-        ) : <></>}
-
-
+        <Button type="submit">Update</Button>
       </Form>
     )
   }

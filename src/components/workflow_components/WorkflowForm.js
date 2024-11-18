@@ -45,8 +45,9 @@ class WorkflowForm extends Component {
 
   updateActivePaneIndex = (newActiveIndex) => {
     this.setState({
+      loading: true,
       activePaneIndex: newActiveIndex
-    })
+    }, this.fetchWorkflow);
   }
 
   fetchChatbots = async () => {
@@ -73,7 +74,12 @@ class WorkflowForm extends Component {
   };
 
   fetchWorkflow = async () => {
-    const { workflowId } = this.state;
+    const { workflowId, loading } = this.state;
+    if (!loading) {
+      this.setState({
+        loading: true
+      });
+    }
     try {
       const response = await fetch(`https://${API_HOST}/workflow_service/workflows/${workflowId}`, {
         method: 'GET',
@@ -84,7 +90,6 @@ class WorkflowForm extends Component {
       }); // Replace with your API endpoint
       const result = await response.json();
       if (response.ok) {
-
         const { data } = result;
         console.log("workflow response data - ", data)
         const workflowObj = new Workflow(data["workflow"], data["status_tree"],
@@ -108,7 +113,7 @@ class WorkflowForm extends Component {
 
   panes = () => {
     const { workflowObj, chatbots } = this.state;
-    if (!workflowObj) {
+    if (this.isNew) {
       return [
         {
           menuItem: 'Workflow Initial Details',

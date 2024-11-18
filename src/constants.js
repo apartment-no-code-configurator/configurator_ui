@@ -9,7 +9,7 @@ export const navItems = [
   {label: "Login", link: "/login", show: localStorage.getItem('apartix_session_id') ? false  : true},
   {label: "Register", link: "/register", show: true}
 ];
-export const dataTypes = [
+export const DATA_TYPES = [
   {key: "text", value: "text", text: "Text"},
   {key: "textarea", value: "textarea", text: "Textarea"},
   {key: "date_time", value: "date_time", text: "DateTime"},
@@ -20,3 +20,5 @@ export const dataTypes = [
   {key: "number", value: "number", text: "Number"},
   {key: "email", value: "email", text: "Email"}
 ];
+
+export const OPTIONS_TABLE_HEADERS = ["Label", "Value", "Description", "Actions"];

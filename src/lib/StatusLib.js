@@ -111,7 +111,7 @@ export class Status {
   }
 
   createStatus(parentStatusId, newValueLabelValue) {
-    axios.post(`https://${API_HOST}/workflow_service/status_linking`, {
+    return axios.post(`https://${API_HOST}/workflow_service/status_linking`, {
       "parent_status": {
         "id": parentStatusId
       },
@@ -125,7 +125,7 @@ export class Status {
     }, {
       headers: this.generateHeaders()
     }).then((response) => {
-      // refreshPage();
+      return response;
     }).catch((error) => {
       console.log(error)
     })

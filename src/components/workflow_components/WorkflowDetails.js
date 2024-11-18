@@ -46,13 +46,13 @@ export default class WorkflowDetails extends Component {
     })
   }
 
-  handleSubmit = () => {
+  handleSubmit = async () => {
 
     const { workflowObj } = this.state;
 
     try {
       if (workflowObj.id()) {
-        workflowObj.updateObj();
+        await workflowObj.updateObj();
         this.props.updateActivePaneIndex(1)
       } else {
         if(workflowObj.createObj()) {

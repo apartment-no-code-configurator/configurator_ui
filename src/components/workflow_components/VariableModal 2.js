@@ -17,9 +17,8 @@ export default class VariableModal extends Component {
     const { selectedVariable } = this.state;
 
     return (
-      <Modal open={selectedVariable !== null} id="variable-centered-modal" style={{
-        "marginLeft": "15%",
-        "marginTop": "10%",
+      <Modal open={selectedVariable !== null} className='app-modal' id="variable-centered-modal" style={{
+        overflow: "auto",
         "height": "70%"
       }}>
         <Modal.Header>Edit Variable</Modal.Header>
