@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 // import Diagram, { createSchema, useSchema } from 'beautiful-react-diagrams';
 import 'beautiful-react-diagrams/styles.css';
-import { Form, Tab, Button, Segment, Modal } from 'semantic-ui-react';
+import { Form, Tab, Button, Segment, Modal, Dropdown } from 'semantic-ui-react';
 import { Status } from '../../lib/StatusLib';
 import StatusGraph from './GraphHooksNautanki';
 import RightSideFormLayout from '../../util_components/RightSideFormLayout'
@@ -21,7 +21,7 @@ export default class Statuses extends Component {
       workflowObj: this.props.workflowObj,
       statuses: [],
       newStatusSelected: false,
-      selectedStatusVariables: null,
+      variableSelectedStatus: null,
       newVariable: new Variable(),
       selectedVariable: null,
       showAddNewVariablePopup: false
@@ -53,7 +53,7 @@ export default class Statuses extends Component {
     const statusObjs = [...this.breadthFirstSearch(statuses, statusSet)]
     this.setState({
       statuses: statusObjs,
-      selectedStatusVariables: statusObjs[0]
+      variableSelectedStatus: statusObjs[0]
     })
   }
 
@@ -187,23 +187,23 @@ export default class Statuses extends Component {
 
   changeSelectedStatus = (evt, data) => {
     this.setState({
-      selectedStatusVariables: this.state.statuses.find((status) => status.id === data.value),
+      variableSelectedStatus: this.state.statuses.find((status) => status.id === data.value),
       newVariable: new Variable()
     })
   }
 
   addNewVariable = () => {
-    const { newVariable, selectedStatusVariables } = this.state;
-    selectedStatusVariables.createVariable(newVariable)
+    const { newVariable, variableSelectedStatus } = this.state;
+    variableSelectedStatus.createVariable(newVariable)
 
     this.setState({
-      selectedStatusVariables: selectedStatusVariables.clone(),
+      variableSelectedStatus: variableSelectedStatus.clone(),
       newVariable: new Variable()
     })
   }
 
   render() {
-    const { newStatusSelected, selectedStatus, newVariable, selectedStatusVariables, selectedVariable, showAddNewVariablePopup } = this.state;
+    const { newStatusSelected, selectedStatus, newVariable, variableSelectedStatus, selectedVariable, showAddNewVariablePopup } = this.state;
     // console.log("Statuses - ")
     // console.log(this.state.statuses)
     // console.log("-------------------------")
@@ -283,15 +283,28 @@ export default class Statuses extends Component {
             </Form>
           </Modal.Content>
         </Modal>
+
+        <Segment>
+          <Form>
+            <Form.Select
+              fluid
+              label='Select Status'
+              onChange={this.changeSelectedStatus}
+              placeholder='Select Status'
+              options={this.renderStatusSelectionDropdown()}
+              upward="false"
+            />
+          </Form>
+        </Segment>
         
-        {selectedStatusVariables && selectedStatusVariables.variables && selectedStatusVariables.variables.length > 0 ? (
+        {variableSelectedStatus && variableSelectedStatus.variables && variableSelectedStatus.variables.length > 0 ? (
           <Segment className='list-existing-tags'>
             <div className='tag-list-header'>
               <h3 className='heading'>Existing tags for the selected status</h3>
               <span className='add-new-tag-link' onClick={() => this.setState({showAddNewVariablePopup: true})} tabIndex={0}>Add Tag</span>
             </div>
             <div className='variable-list'>
-              {selectedStatusVariables.variables.map((variable) => {
+              {variableSelectedStatus.variables.map((variable) => {
                 return (
                   <div className='variable-list-item' key={`tag_${variable.id}`}>
                     <span className='name'>{variable.name}</span>
@@ -309,7 +322,7 @@ export default class Statuses extends Component {
         <Button type="button">Save and move to next step</Button>
         
         
-        {selectedVariable ? <VariableModal selectedVariable={selectedVariable} selectedStatusVariables={selectedStatusVariables} closeModal={() => this.updateEditVariable(null)} /> : <> </>}
+        {selectedVariable ? <VariableModal selectedVariable={selectedVariable} variableSelectedStatus={variableSelectedStatus} closeModal={() => this.updateEditVariable(null)} /> : <> </>}
       </div>
     );
   }
