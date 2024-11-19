@@ -1,27 +1,30 @@
 import React, { Component } from 'react';
 // import Diagram, { createSchema, useSchema } from 'beautiful-react-diagrams';
 import 'beautiful-react-diagrams/styles.css';
-import { Form, Tab, Button, Table } from 'semantic-ui-react';
+import { Form, Tab, Button, Segment, Modal } from 'semantic-ui-react';
 import { Status } from '../../lib/StatusLib';
 import StatusGraph from './GraphHooksNautanki';
 import RightSideFormLayout from '../../util_components/RightSideFormLayout'
 import StatusForm from './StatusForm';
-import { refreshPage } from '../../utils/Utils';
 import { Variable } from '../../lib/VariableLib';
 import VariableModal from './VariableModal';
+import { DATA_TYPES } from '../../constants';
+import { FaRegEdit, FaRegTrashAlt } from "react-icons/fa";
+import { IoCloseOutline } from "react-icons/io5";
 
 export default class Statuses extends Component {
 
-  constructor(props){
+  constructor(props) {
     super(props)
     this.state = {
       selectedStatus: null,
       workflowObj: this.props.workflowObj,
       statuses: [],
       newStatusSelected: false,
-      variableSelectedStatus: null,
+      selectedStatusVariables: null,
       newVariable: new Variable(),
       selectedVariable: null,
+      showAddNewVariablePopup: false
     }
   }
 
@@ -32,7 +35,7 @@ export default class Statuses extends Component {
   }
 
   editStatusEnable = (selectedStatus) => {
-    this.setState( {
+    this.setState({
       selectedStatus
     })
   }
@@ -41,7 +44,7 @@ export default class Statuses extends Component {
     const { workflowObj } = this.state
     const statuses = [];
     const statusSet = new Set();
-    const rootStatus = new Status(workflowObj.statuses[0], {x: 250, y: 60})
+    const rootStatus = new Status(workflowObj.statuses[0], { x: 250, y: 60 })
     this.graph = workflowObj.statuses;
     rootStatus.setStartStatusFlag();
     this.rootStatusId = rootStatus.id;
@@ -50,21 +53,18 @@ export default class Statuses extends Component {
     const statusObjs = [...this.breadthFirstSearch(statuses, statusSet)]
     this.setState({
       statuses: statusObjs,
-      variableSelectedStatus: statusObjs[0]
+      selectedStatusVariables: statusObjs[0]
     })
   }
 
   breadthFirstSearch = (statuses, statusSet) => {
     const queue = [...statuses];
-    while(true) {
+    while (true) {
       const topStatus = queue[0];
-      // console.log("topStatus - ")
-      // console.log(topStatus)
-      // console.log("--------------")
       topStatus.children.forEach((childObj) => {
         const childObjId = childObj.id
-        if (!statusSet.has(childObjId)){
-          const childStatus = new Status(this.graph.find((status) => status.id === childObjId), {x: topStatus.children.find((child) => child.id === childObjId).coordinates.x, y: topStatus.coordinates.y + 75})
+        if (!statusSet.has(childObjId)) {
+          const childStatus = new Status(this.graph.find((status) => status.id === childObjId), { x: topStatus.children.find((child) => child.id === childObjId).coordinates.x, y: topStatus.coordinates.y + 75 })
           queue.push(childStatus)
           statuses.push(childStatus)
           statusSet.add(childObjId)
@@ -75,15 +75,20 @@ export default class Statuses extends Component {
         break;
       }
     }
-    return statuses
+    return statuses;
   }
 
-  closeForm = () => {
+  closeForm = (response) => {
+    const _this = this;
     const { newStatusSelected } = this.state;
     if (newStatusSelected) {
       this.setState({
         newStatusSelected: false
-      })
+      }, () => {
+        if (response?.status === 201) {
+          _this.props.fetchWorkflow();
+        }
+      });
     } else {
       this.setState({
         selectedStatus: null
@@ -93,7 +98,7 @@ export default class Statuses extends Component {
 
   handleSubmit = () => {
 
-    const { workflowObj } = this.state;
+    //const { workflowObj } = this.state;
 
     try {
       // if (workflowObj.id()) {
@@ -147,66 +152,61 @@ export default class Statuses extends Component {
       tabs.push(
         {
           menuItem: tabContent.menuItem,
-          render: () => {
-            return (
-              <Tab.Pane>
-                {tabContent.render}
-              </Tab.Pane>
-            )
-          }
+          render: () => (
+            <Tab.Pane>
+              {tabContent.render}
+            </Tab.Pane>
+          )
         }
       )
     })
-    return (
-      <div>
-        <Tab panes={tabs} activeIndex={status.activePaneIndex} onTabChange={status.changeDetailsPaneIndex}/>
-      </div>
-    )
+    return <Tab panes={tabs} activeIndex={status.activePaneIndex} onTabChange={status.changeDetailsPaneIndex} />
   }
 
   renderForm = () => {
     const { newStatusSelected, selectedStatus, workflowObj } = this.state;
-    console.log("selectedStatus -")
-    console.log(selectedStatus)
-    console.log("---------")
+    // console.log("selectedStatus -")
+    // console.log(selectedStatus)
+    // console.log("---------")
     return (
       <RightSideFormLayout onClose={this.closeForm}>
-        <StatusForm fetchWorkflow={this.props.fetchWorkflow} workflowId={workflowObj.id()} statusObj={newStatusSelected ? new Status({}, {}) : selectedStatus} closeForm={this.closeForm} rootStatusId={this.rootStatusId}/>
+        <StatusForm fetchWorkflow={this.props.fetchWorkflow} workflowId={workflowObj.id()} statusObj={newStatusSelected ? new Status({}, {}) : selectedStatus} closeForm={this.closeForm} rootStatusId={this.rootStatusId} />
       </RightSideFormLayout>
     )
   }
 
   renderStatusSelectionDropdown = () => {
-    const statusList = []
-    this.state.statuses.forEach((status) => {
-      statusList.push(<option key={status.id} value={status.id}>{status.name()}</option>)
-    })
-
-    return statusList
+    return this.state.statuses.map((status) => {
+      return {
+        key: status.id,
+        text: status.name(),
+        value: status.id
+      }
+    });
   }
 
-  changeSelectedStatus = (event) => {
+  changeSelectedStatus = (evt, data) => {
     this.setState({
-      variableSelectedStatus: this.state.statuses.find((status) => status.id.toString() === event.target.value),
+      selectedStatusVariables: this.state.statuses.find((status) => status.id === data.value),
       newVariable: new Variable()
     })
   }
 
   addNewVariable = () => {
-    const { newVariable, variableSelectedStatus } = this.state;
-    variableSelectedStatus.createVariable(newVariable)
+    const { newVariable, selectedStatusVariables } = this.state;
+    selectedStatusVariables.createVariable(newVariable)
 
     this.setState({
-      variableSelectedStatus: variableSelectedStatus.clone(),
+      selectedStatusVariables: selectedStatusVariables.clone(),
       newVariable: new Variable()
     })
   }
 
   render() {
-    const { newStatusSelected, selectedStatus, newVariable, variableSelectedStatus, selectedVariable } = this.state;
-    console.log("Statuses - ")
-    console.log(this.state.statuses)
-    console.log("-------------------------")
+    const { newStatusSelected, selectedStatus, newVariable, selectedStatusVariables, selectedVariable, showAddNewVariablePopup } = this.state;
+    // console.log("Statuses - ")
+    // console.log(this.state.statuses)
+    // console.log("-------------------------")
     const schema = (this.renderStatusGraphSchema())
     // console.log("Bloddy state - ")
     // console.log(this.state)
@@ -214,116 +214,103 @@ export default class Statuses extends Component {
     // console.log(schema)
     // console.log("---------------------------------------")
     return (
-      <>
-      <h3>Statuses</h3>
-
-      {(newStatusSelected || selectedStatus) && this.renderForm()}
-      {this.renderAddNewNodeButton()}
-      {schema.nodes.length > 0 && (
-        <StatusGraph nodes={schema.nodes} links={schema.links} />
-      )}
-
-      <div className="status-variable-form">
-        <Form>
-        <Form.Field>
-          <label>Select Status</label>
-          <select onChange={(event) => this.changeSelectedStatus(event)}>
-          {this.renderStatusSelectionDropdown()}
-          </select>
-        </Form.Field>
-
-
-        <h3>Selected Status New Variable Addition</h3>
-        <Form.Field>
-          <label>New Variable Name</label>
-          <input
-          type="text"
-          value={newVariable.name}
-          onChange={(e) => {
-            const { newVariable } = this.state;
-            newVariable.setName(e.target.value)
-            this.setState({ newVariable: newVariable })
+      <div className='status-container'>
+        <h3>Statuses</h3>
+        {(newStatusSelected || selectedStatus) && this.renderForm()}
+        {this.renderAddNewNodeButton()}
+        {schema.nodes.length > 0 && (
+          <StatusGraph nodes={schema.nodes} links={schema.links} />
+        )}
+        
+        <Modal
+          open={showAddNewVariablePopup}
+          className='app-modal'
+          closeIcon={<IoCloseOutline className='modal-close-icon'/>}
+          onClose={() => {
+            this.setState({showAddNewVariablePopup: false})
           }}
-          />
-        </Form.Field>
+        >
+          <Modal.Header>Add Status Tags</Modal.Header>
+          <Modal.Content>
+            <Form className='status-variable-form' onSubmit={this.handleSubmit}> 
+              <Form.Group widths='equal'>
+                <Form.Select
+                  fluid
+                  label='Select Status'
+                  onChange={this.changeSelectedStatus}
+                  placeholder='Select Status'
+                  options={this.renderStatusSelectionDropdown()}
+                />
+                <Form.Input
+                  fluid
+                  label='Name'
+                  placeholder='Name'
+                  value={newVariable.name}
+                  onChange={(e) => {
+                    const { newVariable } = this.state;
+                    newVariable.setName(e.target.value)
+                    this.setState({ newVariable: newVariable })
+                  }}
+                />
+                <Form.Select
+                  fluid
+                  label='Data Type'
+                  value={newVariable.dataType}
+                  onChange={(e) => {
+                    // const updatedVariable = { ...newVariable, dataType: e.target.value };
+                    const { newVariable } = this.state;
+                    newVariable.setDataType(e.target.value)
+                    this.setState({ newVariable: newVariable })
+                  }}
+                  placeholder='Select Type'
+                  options={DATA_TYPES}
+                />
+              </Form.Group>
 
-        <Form.Field>
-          <label>New Variable Description</label>
-          <textarea
-          value={newVariable.description}
-          onChange={(e) => {
-            const { newVariable } = this.state;
-            newVariable.setDescription(e.target.value)
-            this.setState({ newVariable: newVariable })
-          }}
-          />
-        </Form.Field>
+              <Form.Field>
+                <label>Description</label>
+                <textarea
+                  value={newVariable.description}
+                  onChange={(e) => {
+                    const { newVariable } = this.state;
+                    newVariable.setDescription(e.target.value)
+                    this.setState({ newVariable: newVariable })
+                  }}
+                />
+              </Form.Field>
 
-        <Form.Field>
-        <label>New Variable Data Type</label>
-          <select
-          value={newVariable.dataType}
-          onChange={(e) => {
-            // const updatedVariable = { ...newVariable, dataType: e.target.value };
-            const { newVariable } = this.state;
-            newVariable.setDataType(e.target.value)
-            this.setState({ newVariable: newVariable })
-          }}
-          >
-          <option value="text">Text</option>
-          <option value="textarea">Textarea</option>
-          <option value="date_time">DateTime</option>
-          <option value="select">Select</option>
-          <option value="select_boxes">Select boxes</option>
-          <option value="radio">Radio</option>
-          <option value="checkboxes">Checkboxes</option>
-          <option value="number">Number</option>
-          <option value="email">Email</option>
-          </select>
-        </Form.Field>
+              <Button type="button" onClick={this.addNewVariable}>Add</Button>
+            </Form>
+          </Modal.Content>
+        </Modal>
+        
+        {selectedStatusVariables && selectedStatusVariables.variables && selectedStatusVariables.variables.length > 0 ? (
+          <Segment className='list-existing-tags'>
+            <div className='tag-list-header'>
+              <h3 className='heading'>Existing tags for the selected status</h3>
+              <span className='add-new-tag-link' onClick={() => this.setState({showAddNewVariablePopup: true})} tabIndex={0}>Add Tag</span>
+            </div>
+            <div className='variable-list'>
+              {selectedStatusVariables.variables.map((variable) => {
+                return (
+                  <div className='variable-list-item' key={`tag_${variable.id}`}>
+                    <span className='name'>{variable.name}</span>
+                    <span className='actions'>
+                      <FaRegEdit className="edit" onClick={() => this.updateEditVariable(variable)} title="Edit Tag" />
+                      <FaRegTrashAlt className="delete"  onClick={() => {}} title='Delete Tag' />
+                    </span>
+                  </div>
+                )
+              })}
+            </div>
+          </Segment>
+        ) : ""}
 
-        <Button onClick={this.addNewVariable}>Add New Variable</Button>
-
-        <Form.Field>
-          {variableSelectedStatus && variableSelectedStatus.variables && variableSelectedStatus.variables.length > 0 ? (
-          <h3>Selected Status Existing Variables</h3>
-          ) : (
-          <></>
-          )}
-          {variableSelectedStatus &&
-          variableSelectedStatus.variables ?
-          <Table>
-            <tr>
-              <th>Variable Name</th>
-              <th>Actions</th>
-            </tr>
-            {variableSelectedStatus.variables.map((variable) => (
-              <tr key={variable.name}>
-              <td>{variable.name}</td>
-              <td className='button-groups'>
-                <Button onClick={() => this.updateEditVariable(variable)} >Edit</Button>
-                <Button className='red'>Delete</Button>
-              </td>
-              </tr>
-            ))}
-          </Table> : <></>
-          }
-        </Form.Field>
-        </Form>
+        <Button type="button">Save and move to next step</Button>
+        
+        
+        {selectedVariable ? <VariableModal selectedVariable={selectedVariable} selectedStatusVariables={selectedStatusVariables} closeModal={() => this.updateEditVariable(null)} /> : <> </>}
       </div>
-
-      <Form onSubmit={this.handleSubmit}>
-        <Button type="submit">Save and move to next step</Button>
-      </Form>
-      <style>
-        {`
-        table {
-          border: 1px solid black;
-        }
-        `}
-      </style>
-      { selectedVariable ? <VariableModal selectedVariable={selectedVariable} variableSelectedStatus={variableSelectedStatus} closeModal={() => this.updateEditVariable(null)} /> : <> </> }
-      </>
     );
   }
 }

@@ -11,7 +11,8 @@ export class Variable {
     this.dataType = datatype;
     this.apiName = apiName;
     this.id = id;
-    this.options = JSON.parse(options).map((option) => {
+    options = typeof options === "string" ? JSON.parse(options) : options;
+    this.options = options.map((option) => {
       return new Option(option["label"], option["value"], option["description"], this)
     });
   }

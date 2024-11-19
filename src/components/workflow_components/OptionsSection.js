@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import { Button, Form, Table, TableCell } from 'semantic-ui-react';
+import { Button, Form, Segment, TextArea, Input } from 'semantic-ui-react';
 import { Option } from '../../lib/OptionLib';
+import { OPTIONS_TABLE_HEADERS } from "../../constants";
+import { FaSave, FaRegEdit, FaRegTrashAlt } from 'react-icons/fa';
 
 class OptionsSection extends Component {
   constructor(props) {
@@ -17,81 +19,86 @@ class OptionsSection extends Component {
 
   render() {
 
-    const { clickedIndex, options, selectedVariable, newOption } = this.state;
-
+    const { clickedIndex, options, newOption } = this.state;
+    const existingOptions = options.filter((option) => option.isDeleted === false);
     return (
-      <div className="options-section">
-        <h2>Options Section</h2>
-        <h3>Existing Options</h3>
-        <Table>
-          <Table.Header>
-            <Table.Row>
-              <Table.HeaderCell>Label</Table.HeaderCell>
-              <Table.HeaderCell>Value</Table.HeaderCell>
-              <Table.HeaderCell>Description</Table.HeaderCell>
-              <Table.HeaderCell>Actions</Table.HeaderCell>
-            </Table.Row>
-          </Table.Header>
-          <Table.Body>
-            {options.filter((option) => option.isDeleted === false).map((option, index) => (
-              <Table.Row key={index}>
-                <TableCell>{ clickedIndex === index ? <input onChange={(event) => this.editOption(event, option, "label")} value={option.label()}/> : option.label() } </TableCell>
-                <TableCell>{ clickedIndex === index ? <input onChange={(event) => this.editOption(event, option, "value")} value={option.value()}/> : option.value() } </TableCell>
-                <TableCell>{ clickedIndex === index ? <input onChange={(event) => this.editOption(event, option, "description")} value={option.description()}/> : option.description() } </TableCell>
-                <TableCell>
-                  <Button onClick={(event) => {
-                    event.preventDefault();
-                    const { clickedIndex } = this.state;
-                    console.log("clickedIndex - ", clickedIndex)
-                    if (clickedIndex !== null) {
-                      this.setState({
-                        clickedIndex: null
-                      })
-                    } else {
-                      this.setState({
-                        clickedIndex: index
-                      })
-                    }
-
-                  }}>{ clickedIndex === index ? "Save Changes" : "Edit Option"}</Button>
-                  <button type="button" className="ui button red" onClick={(event) => this.deleteOption(event, index)}>Delete</button>
-                </TableCell>
-              </Table.Row>
-            ))}
-          </Table.Body>
-        </Table>
-        <div>
-          <h3>Add New Option</h3>
-          <Form>
+      <Segment className="options-section">
+        {existingOptions?.length > 0 && (
+          <>
+            <h4>Existing Options</h4>
+            <div className='options-table'>
+              <div className='options-headers'>
+                {OPTIONS_TABLE_HEADERS.map((heading) => <span key={`options_heading_${heading}`}>{heading}</span>)}
+              </div>
+              
+                {existingOptions.map((option, index) => (
+                  <div className='options-list-content' key={`option_item_${index}`}>
+                    <div className='option-item'>
+                      {clickedIndex === index ? <Input size="mini" name="label" value={option.label()} fluid onChange={(evt, data) => this.editOption(evt, option, data, index)} /> : option.label()}
+                    </div>
+                    <div className='option-item'>
+                      {clickedIndex === index ? <Input size="mini" name="description" value={option.description()} small fluid onChange={(evt, data) => this.editOption(evt, option, data, index)} /> : option.description()}
+                    </div>
+                    <div className='option-item'>
+                      {clickedIndex === index ? <Input size="mini" name="value" value={option.value()} fluid onChange={(evt, data) => this.editOption(evt, option, data, index)} /> : option.value()}
+                    </div>
+                    <div className='action-icons'>
+                      {clickedIndex === index ? <FaSave className='save' onClick={() => {
+                        this.setState({
+                          clickedIndex: null
+                        })
+                      }} title="Save Changes" /> : <FaRegEdit className="edit" onClick={() => {
+                        this.setState({
+                          clickedIndex: index
+                        })
+                      }} title="Edit Option" />
+                      }
+                      <FaRegTrashAlt className="delete" onClick={(event) => this.deleteOption(event, index)} title='Delete' />
+                    </div>
+                  </div>
+                ))}
+            </div>
+          </>
+        )}
+        <h4>Add New Option</h4>
+        <Form>
+          <Form.Group widths='equal'>
+            <Form.Input
+              fluid
+              label='Label'
+              name="label"
+              placeholder='Label'
+              value={newOption.label()}
+              onChange={this.changeNewOptionData}
+            />
+            <Form.Input
+              fluid
+              label="Value"
+              name="value"
+              placeholder="Value"
+              type='text'
+              value={newOption.value()}
+              onChange={this.changeNewOptionData}
+            />
+          </Form.Group>
           <Form.Field>
-            <label> Option Label </label>
-            <input type="text" value={newOption.label()} onChange={(event) => this.changeNewOptionData(event, "label")} placeholder="Label" />
-          </Form.Field>
-          <Form.Field>
-          <label> Option Value </label>
-            <input type="text" value={newOption.value()} onChange={(event) => this.changeNewOptionData(event, "value")} placeholder="Value" />
-          </Form.Field>
-          <Form.Field>
-            <label>Variable Description</label>
-            <textarea
-            value={newOption.description()}
-            onChange={(event) => this.changeNewOptionData(event, "description")}
-            placeholder="Description"
+            <label>Description</label>
+            <TextArea
+              name="description"
+              value={newOption.description()}
+              onChange={this.changeNewOptionData}
+              placeholder="Description"
             />
           </Form.Field>
-          <Button onClick={(event) => this.addOption(event)}>Add Option</Button>
-          </Form>
-        </div>
-      </div>
+          <Button onClick={this.addOption}>Add Option</Button>
+        </Form>
+      </Segment>
     );
   }
 
-  editOption = (event, option, key, index) => {
-    // Implement edit option functionality
-    // You can populate a form with the selected option's data for editing
+  editOption = (event, option, data, index) => {
     const { selectedVariable } = this.state;
-    const value = event.target.value
-    option.changeValue(key, value)
+    option.changeValue(data.name, data.value)
     selectedVariable.editOption(option, index)
     this.setState({
       selectedVariable,
@@ -119,18 +126,16 @@ class OptionsSection extends Component {
     this.setState({
       selectedVariable,
       options: [...selectedVariable.options],
-      newOption: new Option("","","")
+      newOption: new Option("", "", "")
     })
   };
 
-  changeNewOptionData = (event, key) => {
-    event.preventDefault();
+  changeNewOptionData = (event, data) => {
     const { newOption } = this.state
-    const value = event.target.value
-    newOption.changeValue(key, value)
+    newOption.changeValue(data.name, data.value)
     this.setState({
       newOption
-    })
+    });
   }
 }
 

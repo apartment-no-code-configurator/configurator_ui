@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Modal, Button, Form } from 'semantic-ui-react';
 import OptionsSection from './OptionsSection';
+import { IoCloseOutline } from "react-icons/io5";
+import { DATA_TYPES } from '../../constants';
 
 export default class VariableModal extends Component {
 
@@ -13,87 +15,86 @@ export default class VariableModal extends Component {
     }
   }
 
+  closeModal = (event) => {
+    event.preventDefault();
+    const { originalVariable } = this.state;
+
+    this.setState({
+      selectedVariable: originalVariable
+    })
+    this.props.closeModal()
+  }
+
   render() {
     const { selectedVariable } = this.state;
 
     return (
-      <Modal open={selectedVariable !== null} id="variable-centered-modal" style={{
-        "marginLeft": "15%",
-        "marginTop": "10%",
-        "height": "70%"
+      <Modal open={selectedVariable !== null} className='app-modal' onClose={this.closeModal} closeIcon={<IoCloseOutline className='modal-close-icon'/>} id="variable-centered-modal" style={{
+        height: "70%",
+        overflow: "auto"
       }}>
-        <Modal.Header>Edit Variable</Modal.Header>
+        <Modal.Header>Edit Tag</Modal.Header>
         <Modal.Content>
-          <Form>
-            <Form.Field>
-              <label>Variable Name</label>
-              <input
-              type="text"
-              value={selectedVariable.name}
-              onChange={(e) => {
-                const { selectedVariable } = this.state;
-                selectedVariable.setName(e.target.value)
-                this.setState({ selectedVariable: selectedVariable })
-              }}
+          <Form className='status-variable-form' onSubmit={this.handleSubmit}> 
+            <Form.Group widths='equal'>
+              <Form.Input
+                fluid
+                label='Name'
+                placeholder='Name'
+                value={selectedVariable.name}
+                onChange={(e, data) => {
+                  const { selectedVariable } = this.state;
+                  selectedVariable.setName(data.value)
+                  this.setState({ selectedVariable })
+                }}
               />
-            </Form.Field>
-
-            <Form.Field>
-              <label>Variable Description</label>
-              <textarea
-              value={selectedVariable.description}
-              onChange={(e) => {
-                const { selectedVariable } = this.state;
-                selectedVariable.setDescription(e.target.value)
-                this.setState({ selectedVariable: selectedVariable })
-              }}
-              />
-            </Form.Field>
-
-            <Form.Field>
-              <label>Variable Data Type</label>
-                <select
+              <Form.Select
+                fluid
+                label='Data Type'
                 value={selectedVariable.dataType}
+                onChange={(e,data) => {
+                  selectedVariable.setDataType(data.value)
+                  this.setState({ selectedVariable })
+                }}
+                placeholder='Select Type'
+                options={DATA_TYPES}
+              />
+            </Form.Group>
+
+            <Form.Field>
+              <label>Description</label>
+              <textarea
+                value={selectedVariable.description}
                 onChange={(e) => {
                   const { selectedVariable } = this.state;
-                  selectedVariable.setDataType(e.target.value)
-                  this.setState({ selectedVariable: selectedVariable })
+                  selectedVariable.setDescription(e.target.value)
+                  this.setState({ selectedVariable })
                 }}
-                >
-                  <option value="text">Text</option>
-                  <option value="textarea">Textarea</option>
-                  <option value="date_time">DateTime</option>
-                  <option value="select">Select</option>
-                  <option value="select_boxes">Select boxes</option>
-                  <option value="radio">Radio</option>
-                  <option value="checkboxes">Checkboxes</option>
-                  <option value="number">Number</option>
-                  <option value="email">Email</option>
-                </select>
+              />
             </Form.Field>
             {
-              selectedVariable.dataType === "select" || selectedVariable.dataType === "select_boxes" || selectedVariable.dataType === "radio" ? <OptionsSection selectedVariable={selectedVariable} /> : <></>
+              selectedVariable.dataType === "select" || selectedVariable.dataType === "select_boxes" || selectedVariable.dataType === "radio" ? (
+                <Form.Field>
+                  <label>Options</label>
+                  <OptionsSection selectedVariable={selectedVariable} />
+                </Form.Field>
+              ) : ""
             }
           </Form>
         </Modal.Content>
         <Modal.Actions>
-          <Button onClick={(event) => {
-            const { selectedVariable, variableSelectedStatus } = this.state;
-            if (selectedVariable.createOrUpdateVariable(variableSelectedStatus.id)) {
-              this.setState({
-                originalVariable: selectedVariable
-              })
-            }
-          }}>Save Changes</Button>
-          <Button onClick={(event) => {
-            event.preventDefault();
-            const { originalVariable } = this.state;
-
-            this.setState({
-              selectedVariable: originalVariable
-            })
-            this.props.closeModal()
-          }}>Close</Button>
+          <Button
+            type="button"
+            onClick={(event) => {
+              const { selectedVariable, variableSelectedStatus } = this.state;
+              if (selectedVariable.createOrUpdateVariable(variableSelectedStatus.id)) {
+                this.setState({
+                  originalVariable: selectedVariable
+                })
+              }
+            }}
+          >Save Changes</Button>
+          <Button type="button" onClick={this.closeModal}>Close</Button>
         </Modal.Actions>
       </Modal>
     );
