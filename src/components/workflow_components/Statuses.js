@@ -221,7 +221,7 @@ export default class Statuses extends Component {
         {schema.nodes.length > 0 && (
           <StatusGraph nodes={schema.nodes} links={schema.links} />
         )}
-        
+
         <Modal
           open={showAddNewVariablePopup}
           className='app-modal'
@@ -232,7 +232,7 @@ export default class Statuses extends Component {
         >
           <Modal.Header>Add Status Tags</Modal.Header>
           <Modal.Content>
-            <Form className='status-variable-form' onSubmit={this.handleSubmit}> 
+            <Form className='status-variable-form' onSubmit={this.handleSubmit}>
               <Form.Group widths='equal'>
                 <Form.Select
                   fluid
@@ -283,7 +283,18 @@ export default class Statuses extends Component {
             </Form>
           </Modal.Content>
         </Modal>
-        
+        <Segment>
+          <Form>
+            <Form.Select
+              fluid
+              label='Select Status'
+              onChange={this.changeSelectedStatus}
+              placeholder='Select Status'
+              options={this.renderStatusSelectionDropdown()}
+              upward="false"
+            />
+          </Form>
+        </Segment>
         {selectedStatusVariables && selectedStatusVariables.variables && selectedStatusVariables.variables.length > 0 ? (
           <Segment className='list-existing-tags'>
             <div className='tag-list-header'>
@@ -307,8 +318,8 @@ export default class Statuses extends Component {
         ) : ""}
 
         <Button type="button">Save and move to next step</Button>
-        
-        
+
+
         {selectedVariable ? <VariableModal selectedVariable={selectedVariable} selectedStatusVariables={selectedStatusVariables} closeModal={() => this.updateEditVariable(null)} /> : <> </>}
       </div>
     );
