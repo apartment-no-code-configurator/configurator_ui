@@ -13,6 +13,7 @@ import Button from 'devextreme-react/button';
 import './App.css';  // Import the CSS for global styles and the App component
 import 'beautiful-react-diagrams/styles.css';
 import { navItems, menuItems } from './constants.js';
+import FlashMessages from "./components/FlashMessages";
 
 class App extends Component {
 
@@ -65,6 +66,7 @@ class App extends Component {
           styles={{ sidebar: { background: "#fff", width: "250px" } }}
         >
           <div className="app-container">
+            <FlashMessages errorId="cont-error-message" successId="cont-success-message" />
             <nav className="navbar">
               {this.renderMenuButton()}
               <div className='nav-items'>

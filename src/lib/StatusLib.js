@@ -233,9 +233,10 @@ export class Status {
     return this.content;
   }
 
-  createVariable(variable) {
-    if (variable.createOrUpdateVariable(this.id)) {
-      this.variables.push(variable)
+  async createVariable(variable) {
+    const isVariableCreated = await variable.createOrUpdateVariable(this.id)
+    if (isVariableCreated) {
+      this.variables.push(variable);
     }
   }
 

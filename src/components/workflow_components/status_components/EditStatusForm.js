@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { Form, Input, Dropdown, Button, Label } from 'semantic-ui-react';
 import { Table } from 'semantic-ui-react';
-import { API_HOST } from '../../../utils/Constants';
+import { API_HOST, GEN_ERR_MESSAGE } from '../../../utils/Constants';
 import MultiSelectDropdown from "../../../utils/MultiSelectDropdown";
+import axios from 'axios';
+import { flashMessage } from '../../../utils/Utils';
 
 export default class EditStatusForm extends Component {
   constructor(props) {
@@ -89,23 +91,48 @@ export default class EditStatusForm extends Component {
   updateStatus = (event) => {
     event.preventDefault();
     const { statusObj, eligibleChildrenStatuses, eligibleParentStatuses } = this.state;
-    // statusObj.editStatusName();
-    console.log(statusObj);
-    const parentIds = [], childrenIds = [];
+    
+    this.setState({
+      loading: true
+    });
+    const payload = {
+      label: statusObj.name(),
+      parent_statuses: [],
+      child_statuses: []
+    };
+    payload["label"] = statusObj.name();
     eligibleParentStatuses.forEach((item) => {
       if (item.selected) {
-        parentIds.push(item.key);
+        payload.parent_statuses.push({
+          id: item.value,
+          rule: []
+        });
       }
     });
     eligibleChildrenStatuses.forEach((item) => {
       if (item.selected) {
-        childrenIds.push(item.key);
+        payload.child_statuses.push({
+          id: item.key,
+          rule: []
+        });
       }
     });
-    console.log(parentIds, childrenIds);
 
-    // To call Api
-    this.props.fetchWorkflow()
+    axios.put(`https://${API_HOST}/status/${statusObj.id}/edit`, payload)
+    .then((response) => {
+      if (response.status === 201) {
+        this.props.closeForm(response);
+      } else {
+        throw response;
+      }
+      flashMessage("cont-success-message", "Status Updated Successfully");
+    })
+    .catch((err) => {
+      this.setState({
+        loading: false
+      });
+      flashMessage("slider-error-message", GEN_ERR_MESSAGE);
+    });
   }
 
   //generate code to add one section for name update, another for status variables create/edit and another section for editing parent status and another section for editing/adding children statuses

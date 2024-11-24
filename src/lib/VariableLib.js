@@ -44,7 +44,7 @@ export class Variable {
     this.dataType = datatype;
   }
 
-  createOrUpdateVariable = (statusId) => {
+  createOrUpdateVariable = async (statusId) => {
     const payload = {
       "status_variable": {
         "name": this.name,
@@ -61,22 +61,16 @@ export class Variable {
     }
 
     try {
-      axios.put(`https://${API_HOST}/workflow_service/status_variables`, payload, {
+      const response = await axios.put(`https://${API_HOST}/workflow_service/status_variables`, payload, {
         headers: this.generateHeaders()
-      }).then((response) => {
-        //TO-DO: Correct the response handling
-        if (response.status === 201) {
-          console.log("status variable creation response")
-          console.log(response)
-          alert(`Variable successfully ${this.id === null ? "created" : "updated"}`)
-          // refreshPage()
-          //TO-DO: Check for id updation if variable is created newly
-          this.apiName = response.data.apiName
-          return true
-        } else {
-          throw response.json()
-        }
-      })
+      });
+
+      if (response.status === 201) {
+        this.apiName = response.data.apiName;
+        return true
+      } else {
+        throw response.json();
+      }
     } catch(error) {
       console.log(error)
       return false

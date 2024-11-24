@@ -21,10 +21,11 @@ export default class Statuses extends Component {
       workflowObj: this.props.workflowObj,
       statuses: [],
       newStatusSelected: false,
-      variableSelectedStatus: null,
+      selectedStatusVariables: null,
       newVariable: new Variable(),
       selectedVariable: null,
-      showAddNewVariablePopup: false
+      showAddNewVariablePopup: false,
+      variablePopupLoading: false
     }
   }
 
@@ -53,7 +54,7 @@ export default class Statuses extends Component {
     const statusObjs = [...this.breadthFirstSearch(statuses, statusSet)]
     this.setState({
       statuses: statusObjs,
-      variableSelectedStatus: statusObjs[0]
+      selectedStatusVariables: statusObjs[0]
     })
   }
 
@@ -187,32 +188,28 @@ export default class Statuses extends Component {
 
   changeSelectedStatus = (evt, data) => {
     this.setState({
-      variableSelectedStatus: this.state.statuses.find((status) => status.id === data.value),
+      selectedStatusVariables: this.state.statuses.find((status) => status.id === data.value),
       newVariable: new Variable()
     })
   }
 
-  addNewVariable = () => {
-    const { newVariable, variableSelectedStatus } = this.state;
-    variableSelectedStatus.createVariable(newVariable)
-
+  addNewVariable = async () => {
+    const { newVariable, selectedStatusVariables } = this.state;
     this.setState({
-      variableSelectedStatus: variableSelectedStatus.clone(),
-      newVariable: new Variable()
+      variablePopupLoading: true
+    })
+    await selectedStatusVariables.createVariable(newVariable);
+    this.setState({
+      selectedStatusVariables: selectedStatusVariables.clone(),
+      newVariable: new Variable(),
+      showAddNewVariablePopup: false,
+      variablePopupLoading: false
     })
   }
 
   render() {
-    const { newStatusSelected, selectedStatus, newVariable, variableSelectedStatus, selectedVariable, showAddNewVariablePopup } = this.state;
-    // console.log("Statuses - ")
-    // console.log(this.state.statuses)
-    // console.log("-------------------------")
+    const { newStatusSelected, selectedStatus, newVariable, selectedStatusVariables, selectedVariable, showAddNewVariablePopup, variablePopupLoading } = this.state;
     const schema = (this.renderStatusGraphSchema())
-    // console.log("Bloddy state - ")
-    // console.log(this.state)
-    // console.log("Schema - ")
-    // console.log(schema)
-    // console.log("---------------------------------------")
     return (
       <div className='status-container'>
         <h3>Statuses</h3>
@@ -232,11 +229,12 @@ export default class Statuses extends Component {
         >
           <Modal.Header>Add Status Tags</Modal.Header>
           <Modal.Content>
-            <Form className='status-variable-form' onSubmit={this.handleSubmit}>
+            <Form className={`status-variable-form ${variablePopupLoading ? "loading" : ""}`}>
               <Form.Group widths='equal'>
                 <Form.Select
                   fluid
                   label='Select Status'
+                  value={selectedStatusVariables?.id || null}
                   onChange={this.changeSelectedStatus}
                   placeholder='Select Status'
                   options={this.renderStatusSelectionDropdown()}
@@ -288,10 +286,11 @@ export default class Statuses extends Component {
             <Form.Select
               fluid
               label='Select Status'
+              value={selectedStatusVariables?.id || null}
               onChange={this.changeSelectedStatus}
               placeholder='Select Status'
               options={this.renderStatusSelectionDropdown()}
-              upward="false"
+              upward={false}
             />
           </Form>
         </Segment>
@@ -302,7 +301,7 @@ export default class Statuses extends Component {
               <span className='add-new-tag-link' onClick={() => this.setState({showAddNewVariablePopup: true})} tabIndex={0}>Add Tag</span>
             </div>
             <div className='variable-list'>
-              {variableSelectedStatus.variables.map((variable) => {
+              {selectedStatusVariables.variables.map((variable) => {
                 return (
                   <div className='variable-list-item' key={`tag_${variable.id}`}>
                     <span className='name'>{variable.name}</span>
@@ -315,9 +314,16 @@ export default class Statuses extends Component {
               })}
             </div>
           </Segment>
-        ) : ""}
+        ) : (
+          <Segment>
+            <div className='tag-list-header'>
+              <h3 className='heading'>No existing tags for the selected status</h3>
+              <span className='add-new-tag-link' onClick={() => this.setState({showAddNewVariablePopup: true})} tabIndex={0}>Add Tag</span>
+            </div>
+          </Segment>
+        )}
 
-        <Button type="button">Save and move to next step</Button>
+        <Button type="button" onClick={this.handleSubmit}>Save and move to next step</Button>
 
 
         {selectedVariable ? <VariableModal selectedVariable={selectedVariable} selectedStatusVariables={selectedStatusVariables} closeModal={() => this.updateEditVariable(null)} /> : <> </>}
