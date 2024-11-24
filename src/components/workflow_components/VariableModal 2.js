@@ -76,9 +76,9 @@ export default class VariableModal extends Component {
           </Form>
         </Modal.Content>
         <Modal.Actions>
-          <Button onClick={(event) => {
+          <Button onClick={async (event) => {
             const { selectedVariable, variableSelectedStatus } = this.state;
-            if (selectedVariable.createOrUpdateVariable(variableSelectedStatus.id)) {
+            if (await selectedVariable.createOrUpdateVariable(variableSelectedStatus.id)) {
               this.setState({
                 originalVariable: selectedVariable
               })

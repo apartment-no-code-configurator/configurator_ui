@@ -3,6 +3,8 @@ import { Modal, Button, Form } from 'semantic-ui-react';
 import OptionsSection from './OptionsSection';
 import { IoCloseOutline } from "react-icons/io5";
 import { DATA_TYPES } from '../../constants';
+import {flashMessage} from "../../utils/Utils";
+import {GEN_ERR_MESSAGE} from "../../utils/Constants";
 
 export default class VariableModal extends Component {
 
@@ -11,7 +13,8 @@ export default class VariableModal extends Component {
     this.state = {
       originalVariable: this.props.originalVariable,
       selectedVariable: this.props.selectedVariable,
-      variableSelectedStatus: this.props.variableSelectedStatus
+      selectedStatusVariables: this.props.selectedStatusVariables,
+      loading: false
     }
   }
 
@@ -26,7 +29,7 @@ export default class VariableModal extends Component {
   }
 
   render() {
-    const { selectedVariable } = this.state;
+    const { selectedVariable, loading } = this.state;
 
     return (
       <Modal open={selectedVariable !== null} className='app-modal' onClose={this.closeModal} closeIcon={<IoCloseOutline className='modal-close-icon'/>} id="variable-centered-modal" style={{
@@ -35,7 +38,7 @@ export default class VariableModal extends Component {
       }}>
         <Modal.Header>Edit Tag</Modal.Header>
         <Modal.Content>
-          <Form className='status-variable-form' onSubmit={this.handleSubmit}> 
+          <Form className={`status-variable-form ${loading ? "loading" : ""}`} > 
             <Form.Group widths='equal'>
               <Form.Input
                 fluid
@@ -85,12 +88,23 @@ export default class VariableModal extends Component {
         <Modal.Actions>
           <Button
             type="button"
-            onClick={(event) => {
-              const { selectedVariable, variableSelectedStatus } = this.state;
-              if (selectedVariable.createOrUpdateVariable(variableSelectedStatus.id)) {
+            onClick={async (event) => {
+              this.setState({
+                loading: true
+              });
+              const { selectedVariable, selectedStatusVariables } = this.state;
+              const success = await selectedVariable.createOrUpdateVariable(selectedStatusVariables.id);
+              if (success) {
                 this.setState({
                   originalVariable: selectedVariable
                 })
+                this.props.closeModal(selectedVariable);
+                flashMessage("cont-success-message", "Tag added successfully");
+              } else {
+                this.setState({
+                  loading: false
+                })
+                flashMessage("slider-error-message", GEN_ERR_MESSAGE)
               }
             }}
           >Save Changes</Button>

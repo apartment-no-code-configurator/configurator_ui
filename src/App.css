@@ -357,3 +357,23 @@ h1.page-title {
   width: 100%;
   padding: 8px 12px;
 }
+
+/* Flash messages */
+
+[id$="success-message"],
+[id$="error-message"]{
+  display: none;
+  position: fixed !important;
+  top: 40px;
+  right: 20px;
+  z-index: 1;
+  transition: all 0.3s ease-in;
+
+  &.show {
+    display: inline-block;
+  }
+}
+
+
+
+/* Flash Messages End */

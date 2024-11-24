@@ -26,3 +26,12 @@ export const logoutSession = () => {
 export const refreshPage = () => {
   window.location.reload()
 }
+
+export const flashMessage = (id, message) => {
+  const el = document.getElementById(id);
+  el.textContent = message;
+  el.classList.add("show");
+  setTimeout(() => {
+    el.classList.remove("show");
+  }, 3000);
+}
