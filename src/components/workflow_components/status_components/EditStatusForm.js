@@ -112,7 +112,7 @@ export default class EditStatusForm extends Component {
       if (item.selected) {
         payload.parent_statuses.push({
           id: item.value,
-          rule: []
+          rule: "[]"
         });
       }
     });
@@ -120,7 +120,7 @@ export default class EditStatusForm extends Component {
       if (item.selected) {
         payload.child_statuses.push({
           id: item.key,
-          rule: []
+          rule: "[]"
         });
       }
     });
