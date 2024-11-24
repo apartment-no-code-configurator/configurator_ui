@@ -2,9 +2,8 @@ import React, { Component } from 'react';
 import { Modal, Button, Form } from 'semantic-ui-react';
 import OptionsSection from './OptionsSection';
 import { IoCloseOutline } from "react-icons/io5";
-import { DATA_TYPES } from '../../constants';
 import {flashMessage} from "../../utils/Utils";
-import {GEN_ERR_MESSAGE} from "../../utils/Constants";
+import {GEN_ERR_MESSAGE, DATA_TYPES} from "../../utils/Constants";
 
 export default class VariableModal extends Component {
 

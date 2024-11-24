@@ -63,14 +63,14 @@ export default class WorkflowList extends Component {
           keyExpr="id"
           showBorders={true}
           width="100%"
-          columnMinWidth="150px"
+          columnMinWidth="120px"
           showRowLines={true}
         >
           <Column dataField="name" caption="Name" calculateCellValue={(data) => data.name()} />
           <Column dataField="workflow_type" caption="Workflow Type" calculateCellValue={(data) => data.workflowType()} />
           <Column dataField="is_published" caption="Is Published" calculateCellValue={(data) => data.isPublished() ? "Published" : "Unpublished"} />
           <Column caption="Actions" cellRender={({data}) => (
-            <Link to={`/workflows/${data.id()}`} className="ui button action-btn">{"View Details"}</Link>
+            <Link to={`/workflows/${data.id()}`} className="action-btn">{"View Details"}</Link>
           )} />
           <Toolbar>
             <Item location="after">
