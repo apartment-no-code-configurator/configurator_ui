@@ -19,7 +19,7 @@ export const validImageFileSize = (fileObj, limitInMB) => {
 
 export const logoutSession = () => {
   //TO-DO: Hit backend to delete token
-  localStorage.removeItem(encryptString("aptx-configurator-session-token"));
+  localStorage.removeItem("apartix_session_id");
   window.location.href = '/';
 }
 

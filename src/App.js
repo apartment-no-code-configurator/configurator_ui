@@ -12,7 +12,7 @@ import 'devextreme/dist/css/dx.light.css';
 import Button from 'devextreme-react/button';
 import './App.css';  // Import the CSS for global styles and the App component
 import 'beautiful-react-diagrams/styles.css';
-import { navItems, menuItems } from './constants.js';
+import { NAV_ITEMS, MENU_ITEMS } from './utils/Constants.jsx';
 import FlashMessages from "./components/FlashMessages";
 
 class App extends Component {
@@ -49,7 +49,7 @@ class App extends Component {
   render() {
     const sidebarContent = (
       <div className="sidebar-menu">
-        {menuItems.map((item) => {
+        {MENU_ITEMS.map((item) => {
           return (
             <NavLink to={item.link} key={`menu-item_${item.label}`} className="sidebar-menu-item">
               {item.label}
@@ -70,12 +70,14 @@ class App extends Component {
             <nav className="navbar">
               {this.renderMenuButton()}
               <div className='nav-items'>
-                {navItems.map((item) => {
-                  return item.show ? (
+                {NAV_ITEMS.map((item) => {
+                  return item.link ? (
                     <NavLink to={item.link} key={`nav-item_${item.label}`} className="nav-item">
                       {item.label}
                     </NavLink>
-                  ) : ""
+                  ) : (item.action ? (
+                    <a href="/" className="nav-item" key={`nav-item_${item.label}`} onClick={item.action} title={item.label}>{item.content}</a>
+                  ) : "")
                 })}
               </div>
             </nav>

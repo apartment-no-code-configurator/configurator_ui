@@ -8,11 +8,10 @@ import RightSideFormLayout from '../../util_components/RightSideFormLayout'
 import StatusForm from './StatusForm';
 import { Variable } from '../../lib/VariableLib';
 import VariableModal from './VariableModal';
-import { DATA_TYPES } from '../../constants';
 import { FaRegEdit, FaRegTrashAlt } from "react-icons/fa";
 import { IoCloseOutline } from "react-icons/io5";
 import { flashMessage } from '../../utils/Utils';
-import { GEN_ERR_MESSAGE } from '../../utils/Constants';
+import { GEN_ERR_MESSAGE , DATA_TYPES} from '../../utils/Constants';
 import FlashMessages from '../FlashMessages';
 
 export default class Statuses extends Component {
