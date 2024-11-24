@@ -3,6 +3,8 @@ import { Modal, Button, Form } from 'semantic-ui-react';
 import OptionsSection from './OptionsSection';
 import { IoCloseOutline } from "react-icons/io5";
 import { DATA_TYPES } from '../../constants';
+import {flashMessage} from "../../utils/Utils";
+import {GEN_ERR_MESSAGE} from "../../utils/Constants";
 
 export default class VariableModal extends Component {
 
@@ -97,11 +99,12 @@ export default class VariableModal extends Component {
                   originalVariable: selectedVariable
                 })
                 this.props.closeModal(selectedVariable);
+                flashMessage("cont-success-message", "Tag added successfully");
               } else {
                 this.setState({
                   loading: false
                 })
-                alert("Something went wrong! try again")
+                flashMessage("slider-error-message", GEN_ERR_MESSAGE)
               }
             }}
           >Save Changes</Button>

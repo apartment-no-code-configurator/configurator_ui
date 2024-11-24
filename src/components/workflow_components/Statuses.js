@@ -11,6 +11,9 @@ import VariableModal from './VariableModal';
 import { DATA_TYPES } from '../../constants';
 import { FaRegEdit, FaRegTrashAlt } from "react-icons/fa";
 import { IoCloseOutline } from "react-icons/io5";
+import { flashMessage } from '../../utils/Utils';
+import { GEN_ERR_MESSAGE } from '../../utils/Constants';
+import FlashMessages from '../FlashMessages';
 
 export default class Statuses extends Component {
 
@@ -198,13 +201,23 @@ export default class Statuses extends Component {
     this.setState({
       variablePopupLoading: true
     })
-    await selectedStatusVariables.createVariable(newVariable);
-    this.setState({
-      selectedStatusVariables: selectedStatusVariables.clone(),
-      newVariable: new Variable(),
-      showAddNewVariablePopup: false,
-      variablePopupLoading: false
-    })
+    const response = await selectedStatusVariables.createVariable(newVariable);
+    if (response) {
+      this.setState({
+        selectedStatusVariables: selectedStatusVariables.clone(),
+        newVariable: new Variable(),
+        showAddNewVariablePopup: false,
+        variablePopupLoading: false
+      }, () => {
+        flashMessage("cont-success-message", "Tag added successfully");
+      });
+    } else {
+      this.setState({
+        variablePopupLoading: false
+      });
+      flashMessage("popup-error-message", GEN_ERR_MESSAGE)
+    }
+    
   }
 
   render() {
@@ -229,6 +242,7 @@ export default class Statuses extends Component {
         >
           <Modal.Header>Add Status Tags</Modal.Header>
           <Modal.Content>
+            <FlashMessages errorId="popup-error-message" successId="popup-success-message" />
             <Form className={`status-variable-form ${variablePopupLoading ? "loading" : ""}`}>
               <Form.Group widths='equal'>
                 <Form.Select

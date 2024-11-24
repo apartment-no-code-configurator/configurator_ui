@@ -360,14 +360,13 @@ h1.page-title {
 
 /* Flash messages */
 
-#cont-error-message,
-#cont-success-message,
-#slider-error-message,
-#slider-success-message {
+[id$="success-message"],
+[id$="error-message"]{
   display: none;
-  position: fixed;
+  position: fixed !important;
   top: 40px;
   right: 20px;
+  z-index: 1;
   transition: all 0.3s ease-in;
 
   &.show {

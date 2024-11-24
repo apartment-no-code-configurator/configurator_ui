@@ -237,7 +237,9 @@ export class Status {
     const isVariableCreated = await variable.createOrUpdateVariable(this.id)
     if (isVariableCreated) {
       this.variables.push(variable);
+      return true;
     }
+    return false;
   }
 
   clone() {
