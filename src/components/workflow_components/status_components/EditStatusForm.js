@@ -88,6 +88,13 @@ export default class EditStatusForm extends Component {
     })
   }
 
+  generateHeaders(){
+    return {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('apartix_session_id')}`
+    }
+  }
+
   updateStatus = (event) => {
     event.preventDefault();
     const { statusObj, eligibleChildrenStatuses, eligibleParentStatuses } = this.state;
@@ -118,7 +125,9 @@ export default class EditStatusForm extends Component {
       }
     });
 
-    axios.put(`https://${API_HOST}/workflow_service/status/${statusObj.id}/edit`, payload)
+    axios.put(`https://${API_HOST}/workflow_service/status/${statusObj.id}/edit`, payload, {
+      headers: this.generateHeaders()
+    })
     .then((response) => {
       if (response.status === 201) {
         this.props.closeForm(response);
