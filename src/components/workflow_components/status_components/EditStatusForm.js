@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Input, Dropdown, Button, Label } from 'semantic-ui-react';
-import { Table } from 'semantic-ui-react';
+import { Form, Button } from 'semantic-ui-react';
 import { API_HOST, GEN_ERR_MESSAGE } from '../../../utils/Constants';
 import MultiSelectDropdown from "../../../utils/MultiSelectDropdown";
 import axios from 'axios';
@@ -41,7 +40,7 @@ export default class EditStatusForm extends Component {
         const {childrenIds, parentIds} = {...this.state.statusObj};
         const eligibleParentStatuses = [];
         result["data"].forEach((status) => {
-          if (status["key"] !== statusObj.id) {
+          if (status.id !== statusObj.id) {
             eligibleParentStatuses.push({
               key: status["id"],
               text: status["label"],
@@ -53,7 +52,7 @@ export default class EditStatusForm extends Component {
 
         const eligibleChildrenStatuses = [];
         result["data"].forEach((status) => {
-          if (status.id !== rootStatusId && status["key"] !== statusObj.id)  {
+          if (status.id !== rootStatusId && status.id !== statusObj.id)  {
             eligibleChildrenStatuses.push({
               key: status["id"],
               text: status["label"],
@@ -203,7 +202,7 @@ export default class EditStatusForm extends Component {
   }
 
   render() {
-    const { eligibleParentStatuses, eligibleChildrenStatuses, statusObj, loading } = this.state;
+    const { eligibleParentStatuses, eligibleChildrenStatuses, loading } = this.state;
 
     return (
       <Form className={`edit-status-form ${loading ? "loading" : ""}`} onSubmit={this.updateStatus}>
