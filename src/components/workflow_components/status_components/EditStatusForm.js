@@ -91,7 +91,7 @@ export default class EditStatusForm extends Component {
   updateStatus = (event) => {
     event.preventDefault();
     const { statusObj, eligibleChildrenStatuses, eligibleParentStatuses } = this.state;
-    
+
     this.setState({
       loading: true
     });
@@ -118,7 +118,7 @@ export default class EditStatusForm extends Component {
       }
     });
 
-    axios.put(`https://${API_HOST}/status/${statusObj.id}/edit`, payload)
+    axios.put(`https://${API_HOST}/workflow_service/status/${statusObj.id}/edit`, payload)
     .then((response) => {
       if (response.status === 201) {
         this.props.closeForm(response);
@@ -212,7 +212,7 @@ export default class EditStatusForm extends Component {
               options={eligibleParentStatuses}
               onChange={(eligibleNewParentStatuses) => {
                 this.setState({
-                  eligibleNewParentStatuses 
+                  eligibleNewParentStatuses
                 })
               }}
             />
