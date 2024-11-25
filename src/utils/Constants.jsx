@@ -8,7 +8,7 @@ export const MENU_ITEMS = [
   {label: "User Management", link: "/user_management"},
   {label: "Society Details", link: "/society_details"}
 ];
-const sessionId = localStorage.getItem('apartix_session_id');
+export const sessionId = localStorage.getItem('apartix_session_id');
 export const NAV_ITEMS = sessionId ? [
   {label: "Logout", content: <IoIosLogOut color='#fff' size={"24px"} />, action: logoutSession }
 ] : [

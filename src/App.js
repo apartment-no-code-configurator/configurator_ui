@@ -12,8 +12,9 @@ import 'devextreme/dist/css/dx.light.css';
 import Button from 'devextreme-react/button';
 import './App.css';  // Import the CSS for global styles and the App component
 import 'beautiful-react-diagrams/styles.css';
-import { NAV_ITEMS, MENU_ITEMS } from './utils/Constants.jsx';
+import { NAV_ITEMS, MENU_ITEMS, sessionId } from './utils/Constants.jsx';
 import FlashMessages from "./components/FlashMessages";
+import PageNotFound from "./utils/PageNotFound.jsx";
 
 class App extends Component {
 
@@ -84,14 +85,21 @@ class App extends Component {
             <div className='page-content'>
               <Routes>
                 <Route path="/" element={<Home />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<Register />} />
-                <Route path="/home" element={<ChatbotList />} />
+                {
+                  !sessionId ? (
+                    <>
+                      <Route path="/login" element={<Login />} />
+                      <Route path="/register" element={<Register />} />
+                      <Route path="/home" element={<ChatbotList />} />
+                    </>
+                  ) : ""
+                }
                 <Route path="/chatbots" element={<ChatbotList />} />
                 <Route path="/workflows/:workflowId" element={
                   <WorkflowForm />
                 } />
                 <Route path="/workflows" element={<WorkflowList />} />
+                <Route path="*" element={<PageNotFound />} />
                 {/* <Route path="/user_management" element={<UserManagement />} /> */}
                 {/* <Route path="/society_details" element={<SocietyDetails />} /> */}
               </Routes>
