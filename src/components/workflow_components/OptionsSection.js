@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Form, Segment, TextArea, Input } from 'semantic-ui-react';
 import { Option } from '../../lib/OptionLib';
-import { OPTIONS_TABLE_HEADERS } from "../../constants";
+import { OPTIONS_TABLE_HEADERS } from "../../utils/Constants";
 import { FaSave, FaRegEdit, FaRegTrashAlt } from 'react-icons/fa';
 
 class OptionsSection extends Component {
