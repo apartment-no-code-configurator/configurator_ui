@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { DataGrid, Column } from 'devextreme-react/data-grid';
 import 'devextreme/dist/css/dx.light.css';
-import Button from 'devextreme-react/button';
+import Button from 'devextreme-react/button'; //TO-DO: Use bootstrap button
 import withSessionCheck from '../../higher_order_components/CheckSession.js';
 import { Chatbot } from '../../lib/ChatbotLib.js';
 import AddChatbot from './AddChatbot.js';
