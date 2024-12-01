@@ -110,8 +110,7 @@ class ChatbotList extends Component {
             caption="Actions"
             cellRender={({ data }) => (
               <Button
-                red
-                className="add-chatbot-button"
+              
                 onClick={() => data.isActive() ? this.handleDeleteChatbot(data.id) : this.handleActivateChatbot(data.id)}
               >{data.isActive() ? "Deactivate" : "Activate"}</Button>
             )}
