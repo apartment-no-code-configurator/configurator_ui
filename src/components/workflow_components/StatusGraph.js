@@ -3,10 +3,6 @@ import React from 'react';
 import Diagram, { useSchema, createSchema } from 'beautiful-react-diagrams';
 
 const StatusGraph = ({ nodes, links }) => {
-  // console.log("nodes - ")
-  // console.log(nodes)
-  // console.log("links - ")
-  // console.log(links)
   const initialSchema = createSchema({
     nodes,
     links,
@@ -14,9 +10,6 @@ const StatusGraph = ({ nodes, links }) => {
       arrowHead: 'arrow',
     },
   });
-  // const initialSchema = createSchema({nodes, links});
-  // console.log(initialSchema)
-  // console.log("-----------------")
   const [schema, { onChange }] = useSchema(initialSchema);
 
   const styles = {

@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import 'beautiful-react-diagrams/styles.css';
 import { Form, Tab, Button, Segment, Modal, Dropdown } from 'semantic-ui-react';
 import { Status } from '../../lib/StatusLib';
-import StatusGraph from './GraphHooksNautanki';
+import StatusGraph from './StatusGraph';
 import RightSideFormLayout from '../../util_components/RightSideFormLayout'
 import StatusForm from './StatusForm';
 import { Variable } from '../../lib/VariableLib';

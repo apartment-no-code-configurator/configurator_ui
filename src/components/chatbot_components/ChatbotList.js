@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { DataGrid, Column } from 'devextreme-react/data-grid';
+import { DataGrid, Column, Toolbar, Item } from 'devextreme-react/data-grid';
+import { Button } from 'semantic-ui-react';
 import 'devextreme/dist/css/dx.light.css';
-import Button from 'devextreme-react/button'; //TO-DO: Use bootstrap button
+import RightSideFormLayout from '../../util_components/RightSideFormLayout.js';
 import withSessionCheck from '../../higher_order_components/CheckSession.js';
 import { Chatbot } from '../../lib/ChatbotLib.js';
 import AddChatbot from './AddChatbot.js';
@@ -91,12 +92,11 @@ class ChatbotList extends Component {
     return (
       <div className='chatbot-list-container'>
         {error && <p>Error: {error}</p>}
-        {showChatbotForm && <AddChatbot chatbot={selectedChatbot} sidebarOpen={true} handleSidebarClose={this.closeAddChatbotSidebar} updateChatBotList={this.updateChatBotList} />}
-        <Button
-          text="+ Add Chatbot"
-          className="add-chatbot-button"
-          onClick={this.handleAddChatbot}
-        />
+        {showChatbotForm && (
+          <RightSideFormLayout onClose={this.closeAddChatbotSidebar}>
+            <AddChatbot chatbot={selectedChatbot} handleSidebarClose={this.closeAddChatbotSidebar} updateChatBotList={this.updateChatBotList} />
+          </RightSideFormLayout>
+        )}
         <DataGrid
           dataSource={chatbots}
           keyExpr="id"
@@ -110,11 +110,21 @@ class ChatbotList extends Component {
             caption="Actions"
             cellRender={({ data }) => (
               <Button
-                text={data.isActive() ? "Deactivate" : "Activate"}
+                red
+                className="add-chatbot-button"
                 onClick={() => data.isActive() ? this.handleDeleteChatbot(data.id) : this.handleActivateChatbot(data.id)}
-              />
+              >{data.isActive() ? "Deactivate" : "Activate"}</Button>
             )}
           />
+          <Toolbar>
+            <Item location="after">
+              <Button
+                primary
+                className="add-chatbot-button"
+                onClick={this.handleAddChatbot}
+              >{"+ Add Chatbot"}</Button>
+            </Item>
+          </Toolbar>
         </DataGrid>
       </div>
     );

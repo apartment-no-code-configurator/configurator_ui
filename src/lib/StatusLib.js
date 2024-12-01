@@ -182,7 +182,6 @@ export class Status {
       links.push({
         input: `${this.id}`,
         output: `${childLink.id}`,
-        label: `Link from ${this.content} to ${childLink.content}`,
       })
     })
     return links;

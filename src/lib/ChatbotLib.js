@@ -12,7 +12,7 @@ export class Chatbot {
   }
 
   setValue(key, value) {
-    this.record[key] = value.trim()
+    this.record[key] = typeof value === "string" ? value.trim() : value;
   }
 
   id() {
