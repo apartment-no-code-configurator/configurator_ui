@@ -8,6 +8,7 @@
   --red: #d1480f;
   --red-dark: #BA400D;
   --light-grey: #f4f4f4;
+  --toggle-green: #a0e42f;
 }
 
 .app-container {
@@ -388,6 +389,43 @@ h1.page-title {
   }
 }
 
+.app-custom-toggle.ui.toggle.checkbox .box:before,
+.app-custom-toggle.ui.toggle.checkbox label:before {
+  background-color: var(--red);
+}
+
+.app-custom-toggle.ui.toggle.checkbox input~.box:after,
+.app-custom-toggle.ui.toggle.checkbox input~label:after {
+  left: 1px;
+}
+
+.app-custom-toggle.ui.toggle.checkbox input:checked~.box:before,
+.app-custom-toggle.ui.toggle.checkbox input:checked~label:before {
+  background-color: var(--toggle-green) !important;
+}
+
+.app-custom-toggle.ui.checkbox input:checked~.box:before,
+.app-custom-toggle.ui.checkbox input:checked~label:before {
+  background: #fff;
+  border-color: var(--toggle-green);
+}
+
+.app-custom-toggle.ui.toggle.checkbox .box:before,
+.app-custom-toggle.ui.toggle.checkbox label:before {
+  width: 40px;
+}
+
+.app-custom-toggle.ui.toggle.checkbox .box:after,
+.app-custom-toggle.ui.toggle.checkbox label:after {
+  width: 19px;
+  height: 19px;
+  top: 1px;
+}
+
+.app-custom-toggle.ui.toggle.checkbox input:checked~.box:after,
+.app-custom-toggle.ui.toggle.checkbox input:checked~label:after {
+  left: 20px;
+}
 
 
 /* Flash Messages End */

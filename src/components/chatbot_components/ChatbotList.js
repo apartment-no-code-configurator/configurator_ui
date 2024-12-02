@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { DataGrid, Column, Toolbar, Item } from 'devextreme-react/data-grid';
-import { Button } from 'semantic-ui-react';
+import { Button, Checkbox } from 'semantic-ui-react';
 import 'devextreme/dist/css/dx.light.css';
 import RightSideFormLayout from '../../util_components/RightSideFormLayout.js';
 import withSessionCheck from '../../higher_order_components/CheckSession.js';
@@ -103,10 +103,15 @@ class ChatbotList extends Component {
           showBorders={true}
         >
           <Column dataField="name" caption="Name" />
-          <Column dataField="is_active" caption="Active" cellRender={({data}) => (
-            <p>{data.isActive() ? "Active" : "Inactive"}</p>
-          )} />
-          <Column
+          <Column dataField="is_active" caption="Status" cellRender={({data}) => {
+            const isActive = data.isActive();
+            return <Checkbox className="app-custom-toggle" toggle checked={isActive} onChange={(e, checkboxData) => {
+              const chatbotId = data.id();
+              const value = checkboxData.checked;
+              console.log(chatbotId, value); //Replace with handler method based on the checkbox value. 
+            }} />
+          }} />
+          {/*<Column
             caption="Actions"
             cellRender={({ data }) => (
               <Button
@@ -114,7 +119,7 @@ class ChatbotList extends Component {
                 onClick={() => data.isActive() ? this.handleDeleteChatbot(data.id) : this.handleActivateChatbot(data.id)}
               >{data.isActive() ? "Deactivate" : "Activate"}</Button>
             )}
-          />
+          />*/}
           <Toolbar>
             <Item location="after">
               <Button
