@@ -121,11 +121,25 @@ export default class Statuses extends Component {
     const nodes = [];
     const links = [];
     statuses.forEach((status) => {
-      nodes.push(status.generateDiagramJson({ updateFunctionCallback: this.editStatusEnable }));
-      const statusLinks = status.generateLinks();
-      statusLinks.forEach((status) => {
-        links.push(status)
+      nodes.push({
+        id: status.id,
+        name: status.name(),
+        type: "rectangle"
+      });
+      status.childrenIds.forEach((childId) => {
+        links.push({
+          id: `${status.id}${childId}`,
+          from: status.id,
+          to: childId
+        });
       })
+      status.parentIds.forEach((parentId) => {
+        links.push({
+          id: `${status.id}${parentId}`,
+          from: parentId,
+          to: status.id
+        });
+      });
     })
 
     const schema = {

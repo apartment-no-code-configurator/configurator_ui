@@ -1,25 +1,47 @@
 
 import React from 'react';
-import Diagram, { useSchema, createSchema } from 'beautiful-react-diagrams';
+import Diagram, {
+  Nodes,
+  Edges,
+} from 'devextreme-react/diagram';
 
-const StatusGraph = ({ nodes, links }) => {
-  const initialSchema = createSchema({
-    nodes,
-    links,
-    linkExtras: {
-      arrowHead: 'arrow',
-    },
-  });
-  const [schema, { onChange }] = useSchema(initialSchema);
-
-  const styles = {
-    height: "350px", position: "relative", margin: "10px 0", overflow: "auto"
-  }
+const StatusGraph = ({ nodes = [], links = [] }) => {
 
   return (
-    <div style={styles} className='status-graph'>
-      <Diagram schema={schema} onChange={onChange} />
-    </div>
+      <Diagram
+        autoZoomMode='disabled'
+        zoomLevel={false}
+        defaultItemProperties={{
+        connectorLineEnd: "arrow",
+        connectorLineStart:"none",
+         connectorLineType:"orthogonal",
+        }}
+        snapToGrid={true}
+        pageColor='white'
+        pageOrientation='landscape'
+        readOnly={true}
+        showGrid={false}
+        width={"100%"}
+        visible={true}
+        height={"100%"}
+        viewToolbar={false}
+        editing={false}
+        simpleView={true}
+      >
+        <Nodes
+          dataSource={nodes}
+          typeExpr={"type"}
+          textExpr="name"
+          autoSizeEnabled={true}
+        > 
+        </Nodes>
+        <Edges
+          dataSource={links}
+          fromExpr={"from"}
+          toExpr={"to"}
+          keyExpr={"id"}
+        />
+      </Diagram>
   );
 };
 
