@@ -93,7 +93,7 @@ class App extends Component {
                     </>
                   ) : ""
                 }
-                <Route path="/home" element={<Home />} />
+                <Route path="/home" element={<ChatbotList />} />
                 <Route path="/chatbots" element={<ChatbotList />} />
                 <Route path="/workflows/:workflowId" element={
                   <WorkflowForm />
