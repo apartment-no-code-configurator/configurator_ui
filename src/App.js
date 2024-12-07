@@ -24,7 +24,7 @@ class App extends Component {
       sidebarOpen: false,
     };
   }
-
+//hello world
   componentDidMount() {
     // Select the dx-license element
     const licenseElement = document.querySelector('dx-license');
