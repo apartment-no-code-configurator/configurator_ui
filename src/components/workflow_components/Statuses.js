@@ -39,7 +39,7 @@ export default class Statuses extends Component {
 
   editStatusEnable = (selectedStatus) => {
     this.setState({
-      selectedStatus
+      selectedStatus: this.state.statuses.find((status) => status.id === selectedStatus.id)
     })
   }
 
@@ -95,7 +95,10 @@ export default class Statuses extends Component {
     } else {
       this.setState({
         selectedStatus: null
-      })
+      });
+      if (response?.status === 201) {
+        _this.props.fetchWorkflow();
+      }
     }
   }
 
@@ -242,7 +245,7 @@ export default class Statuses extends Component {
         {(newStatusSelected || selectedStatus) && this.renderForm()}
         {this.renderAddNewNodeButton()}
         {schema.nodes.length > 0 && (
-          <StatusGraph nodes={schema.nodes} links={schema.links} />
+          <StatusGraph nodes={schema.nodes} links={schema.links} editStatusEnable={this.editStatusEnable} />
         )}
 
         <Modal

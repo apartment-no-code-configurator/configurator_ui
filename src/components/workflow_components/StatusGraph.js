@@ -5,7 +5,7 @@ import Diagram, {
   Edges,
 } from 'devextreme-react/diagram';
 
-const StatusGraph = ({ nodes = [], links = [] }) => {
+const StatusGraph = ({ nodes = [], links = [], editStatusEnable }) => {
 
   return (
       <Diagram
@@ -27,12 +27,16 @@ const StatusGraph = ({ nodes = [], links = [] }) => {
         viewToolbar={false}
         editing={false}
         simpleView={true}
+        onItemClick={(itemData) => {
+          editStatusEnable(itemData.item.dataItem);
+        }}
       >
         <Nodes
           dataSource={nodes}
           typeExpr={"type"}
           textExpr="name"
           autoSizeEnabled={true}
+          
         > 
         </Nodes>
         <Edges
