@@ -32,6 +32,14 @@ class App extends Component {
       // Hide the element
       licenseElement.style.display = 'none';
     }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const licenseTag = document.querySelector('.dx-license');
+      if (licenseTag) {
+        licenseTag.remove();
+      }
+    });
+
   }
 
   onSetSidebarOpen = (open) => {
