@@ -13,6 +13,7 @@ import Button from 'devextreme-react/button';
 import './App.css';  // Import the CSS for global styles and the App component
 import 'beautiful-react-diagrams/styles.css';
 import { NAV_ITEMS, MENU_ITEMS, sessionId } from './utils/Constants.jsx';
+import { hideLicenseTags } from '../../utils/Utils.jsx'; // Import the utility function
 import FlashMessages from "./components/FlashMessages";
 import PageNotFound from "./utils/PageNotFound.jsx";
 
@@ -27,19 +28,31 @@ class App extends Component {
 
   componentDidMount() {
     // Select the dx-license element
-    const licenseElement = document.querySelector('dx-license');
-    if (licenseElement) {
-      // Hide the element
-      licenseElement.style.display = 'none';
-    }
+    // const licenseElement = document.querySelector('dx-license');
+    // if (licenseElement) {
+    //   // Hide the element
+    //   licenseElement.style.display = 'none';
+    // }
 
-    document.addEventListener('DOMContentLoaded', () => {
-      const licenseTag = document.querySelector('.dx-license');
-      if (licenseTag) {
-        licenseTag.remove();
-      }
-    });
+    // document.addEventListener('DOMContentLoaded', () => {
+    //   const licenseTag = document.querySelector('.dx-license');
+    //   if (licenseTag) {
+    //     licenseTag.remove();
+    //     const observer = new MutationObserver(licenseTag);
+    //     observer.observe(document.body, { childList: true, subtree: true });
 
+    //     return () => {
+    //       observer.disconnect(); // Clean up observer on component unmount
+    //     };
+
+    //   }
+    // });
+    hideLicenseTags();
+
+  }
+
+  componentDidUpdate() {
+    hideLicenseTags();
   }
 
   onSetSidebarOpen = (open) => {

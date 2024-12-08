@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import { DataGrid, Column, Toolbar, Item } from 'devextreme-react/data-grid';
+import { hideLicenseTags } from '../utils/Utils';
 import { Link } from 'react-router-dom';
 import { Workflow } from '../../lib/WorkflowLib';
 import Button from 'devextreme-react/button';
 import { API_HOST } from '../../utils/Constants';
-import { CLoader } from '../../utils/CLoader'; 
+import { CLoader } from '../../utils/CLoader';
 
 export default class WorkflowList extends Component {
   constructor(props) {
@@ -17,11 +18,16 @@ export default class WorkflowList extends Component {
   }
 
   componentDidMount() {
+    hideLicenseTags();
     if (!localStorage.getItem('apartix_session_id')) {
       window.location.href = `${window.location.origin}/login`
     } else {
       this.fetchWorkflows();
     }
+  }
+
+  componentDidUpdate() {
+    hideLicenseTags();
   }
 
   handleAddWorkflow = () => {
@@ -78,7 +84,7 @@ export default class WorkflowList extends Component {
             </Item>
           </Toolbar>
         </DataGrid>}
-        
+
 
       </div>
     )

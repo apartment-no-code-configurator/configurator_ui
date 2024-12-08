@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { Variable } from './VariableLib';
 import { DataGrid, Column } from 'devextreme-react/data-grid';
-import { refreshPage } from '../utils/Utils';
+import { refreshPage, hideLicenseTags } from '../utils/Utils';
 import { API_HOST } from '../utils/Constants';
 
 export class Status {
@@ -48,6 +48,14 @@ export class Status {
       })
     }
     this.children = [...childrenList]
+  }
+
+  componentDidMount(){
+    hideLicenseTags()
+  }
+
+  componentDidUpdate(){
+    hideLicenseTags();
   }
 
   setParentStatuses(params) {

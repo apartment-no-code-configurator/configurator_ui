@@ -35,3 +35,10 @@ export const flashMessage = (id, message) => {
     el.classList.remove("show");
   }, 3000);
 }
+
+export const hideLicenseTags = () => {
+  const licenseTags = document.querySelectorAll('dx-license');
+  licenseTags.forEach(tag => {
+    tag.style.display = 'none';
+  });
+};
