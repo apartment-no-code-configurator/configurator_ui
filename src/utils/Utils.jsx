@@ -53,7 +53,7 @@ export const observeLicenseTags = () => {
     mutations.forEach((mutation) => {
       if (mutation.addedNodes.length) {
         mutation.addedNodes.forEach((node) => {
-          if (node.tagName === 'DX-LICENSE') || (node.tagName === "dx-license") {
+          if ((node.tagName === 'DX-LICENSE') || (node.tagName === "dx-license")) {
             node.remove();
           }
         });
