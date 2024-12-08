@@ -437,3 +437,7 @@ h1.page-title {
 .dx-license {
   display: none !important;
 }
+
+dx-license {
+  display: none !important
+}
