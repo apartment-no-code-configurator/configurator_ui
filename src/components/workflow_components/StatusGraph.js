@@ -16,7 +16,6 @@ const StatusGraph = ({ nodes = [], links = [] }) => {
   })
 
   hideLicenseTags();
-  observeLicenseTags();
 
   return (
       <Diagram

@@ -48,12 +48,12 @@ class App extends Component {
     //   }
     // });
     hideLicenseTags();
-    observeLicenseTags();
+    // observeLicenseTags();
   }
 
   componentDidUpdate() {
     hideLicenseTags();
-    observeLicenseTags();
+    // observeLicenseTags();
   }
 
   onSetSidebarOpen = (open) => {
@@ -70,6 +70,7 @@ class App extends Component {
   }
 
   render() {
+    hideLicenseTags();
     const sidebarContent = (
       <div className="sidebar-menu">
         {MENU_ITEMS.map((item) => {

@@ -21,7 +21,7 @@ class ChatbotList extends Component {
 
   componentDidMount() {
     hideLicenseTags();
-    observeLicenseTags();
+    // observeLicenseTags();
     if (!localStorage.getItem('apartix_session_id')) {
       window.location.href = `${window.location.origin}/login`
     } else {
@@ -31,7 +31,7 @@ class ChatbotList extends Component {
 
   componentDidUpdate() {
     hideLicenseTags();
-    observeLicenseTags();
+    // observeLicenseTags();
   }
 
   fetchChatbots = async () => {
@@ -95,6 +95,7 @@ class ChatbotList extends Component {
   }
 
   render() {
+    hideLicenseTags();
     const { chatbots, showChatbotForm, selectedChatbot, error } = this.state;
 
     return (

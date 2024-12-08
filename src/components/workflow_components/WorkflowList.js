@@ -19,7 +19,7 @@ export default class WorkflowList extends Component {
 
   componentDidMount() {
     hideLicenseTags();
-    observeLicenseTags();
+    // observeLicenseTags();
     if (!localStorage.getItem('apartix_session_id')) {
       window.location.href = `${window.location.origin}/login`
     } else {
@@ -29,7 +29,7 @@ export default class WorkflowList extends Component {
 
   componentDidUpdate() {
     hideLicenseTags();
-    observeLicenseTags();
+    // observeLicenseTags();
   }
 
   handleAddWorkflow = () => {
@@ -60,7 +60,7 @@ export default class WorkflowList extends Component {
   }
 
   render() {
-
+    hideLicenseTags();
     const { workflows, error, showWorkflowForm, selectedWorkflow, loading } = this.state;
 
     return (
