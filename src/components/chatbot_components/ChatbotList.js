@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { DataGrid, Column, Toolbar, Item } from 'devextreme-react/data-grid';
-import { hideLicenseTags } from '../../utils/Utils.jsx'; // Import the utility function
+import { hideLicenseTags, observeLicenseTags } from '../../utils/Utils.jsx'; // Import the utility function
 import { Button, Checkbox } from 'semantic-ui-react';
 import 'devextreme/dist/css/dx.light.css';
 import RightSideFormLayout from '../../util_components/RightSideFormLayout.js';
@@ -21,6 +21,7 @@ class ChatbotList extends Component {
 
   componentDidMount() {
     hideLicenseTags();
+    observeLicenseTags();
     if (!localStorage.getItem('apartix_session_id')) {
       window.location.href = `${window.location.origin}/login`
     } else {
@@ -30,6 +31,7 @@ class ChatbotList extends Component {
 
   componentDidUpdate() {
     hideLicenseTags();
+    observeLicenseTags();
   }
 
   fetchChatbots = async () => {

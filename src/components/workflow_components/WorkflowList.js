@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { DataGrid, Column, Toolbar, Item } from 'devextreme-react/data-grid';
-import { hideLicenseTags } from '../../utils/Utils.jsx';  // Import the utility function for hideLicenseTags
+import { hideLicenseTags, observeLicenseTags } from '../../utils/Utils.jsx';  // Import the utility function for hideLicenseTags
 import { Link } from 'react-router-dom';
 import { Workflow } from '../../lib/WorkflowLib';
 import Button from 'devextreme-react/button';
@@ -19,6 +19,7 @@ export default class WorkflowList extends Component {
 
   componentDidMount() {
     hideLicenseTags();
+    observeLicenseTags();
     if (!localStorage.getItem('apartix_session_id')) {
       window.location.href = `${window.location.origin}/login`
     } else {
@@ -28,6 +29,7 @@ export default class WorkflowList extends Component {
 
   componentDidUpdate() {
     hideLicenseTags();
+    observeLicenseTags();
   }
 
   handleAddWorkflow = () => {

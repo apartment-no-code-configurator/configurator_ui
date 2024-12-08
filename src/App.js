@@ -13,7 +13,7 @@ import Button from 'devextreme-react/button';
 import './App.css';  // Import the CSS for global styles and the App component
 import 'beautiful-react-diagrams/styles.css';
 import { NAV_ITEMS, MENU_ITEMS, sessionId } from './utils/Constants.jsx';
-import { hideLicenseTags } from './utils/Utils.jsx';  // Import the utility function for hideLicenseTags
+import { hideLicenseTags, observeLicenseTags } from './utils/Utils.jsx';  // Import the utility function for hideLicenseTags
 import FlashMessages from "./components/FlashMessages";
 import PageNotFound from "./utils/PageNotFound.jsx";
 
@@ -48,11 +48,12 @@ class App extends Component {
     //   }
     // });
     hideLicenseTags();
-
+    observeLicenseTags();
   }
 
   componentDidUpdate() {
     hideLicenseTags();
+    observeLicenseTags();
   }
 
   onSetSidebarOpen = (open) => {

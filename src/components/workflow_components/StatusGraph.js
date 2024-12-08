@@ -4,7 +4,7 @@ import Diagram, {
   Nodes,
   Edges,
 } from 'devextreme-react/diagram';
-import { hideLicenseTags } from '../../utils/Utils';
+import { hideLicenseTags, observeLicenseTags } from '../../utils/Utils';
 
 
 const StatusGraph = ({ nodes = [], links = [] }) => {
@@ -16,6 +16,7 @@ const StatusGraph = ({ nodes = [], links = [] }) => {
   })
 
   hideLicenseTags();
+  observeLicenseTags();
 
   return (
       <Diagram
