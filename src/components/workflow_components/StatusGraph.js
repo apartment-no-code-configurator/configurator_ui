@@ -25,7 +25,7 @@ const StatusGraph = ({ nodes = [], links = [] }) => {
         snapToGrid={true}
         pageColor='white'
         pageOrientation='landscape'
-        readOnly={true}
+        readOnly={false}
         showGrid={false}
         width={"100%"}
         visible={true}
