@@ -31,13 +31,17 @@ class Home extends Component {
             <p>Have any questions or need assistance? Get in touch with us:</p>
             <div className='cards'>
               <div className='card'>
-                <h3>For Management committee</h3></div>
+                <div className='card1'>
+                <h3>For Management committee</h3></div></div>
               <div className='card'>
-                <h3>For Residents</h3></div>
+                <div className='card2'>
+                <h3>For Residents</h3></div></div>
               <div className='card'>
-                <h3>For Vendor employees</h3></div>
+                <div className='card3'>
+                <h3>For Vendor employees</h3></div></div>
               <div className='card'>
-                <h3>For property owners</h3></div>
+                <div className='card4'>
+                <h3>For property owners</h3></div></div>
               </div>
               </div>
               </div>
