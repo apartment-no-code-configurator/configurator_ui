@@ -7,6 +7,12 @@ import Diagram, {
 
 const StatusGraph = ({ nodes = [], links = [] }) => {
 
+  const onRequestEditOperation = ((e) => {
+    if (e.operation === 'changeConnection' || e.operation === "changeConnectorPoints") {
+      e.allowed=false;
+    }
+  })
+
   return (
       <Diagram
         autoZoomMode='disabled'
@@ -27,13 +33,14 @@ const StatusGraph = ({ nodes = [], links = [] }) => {
         viewToolbar={false}
         editing={false}
         simpleView={true}
+        onRequestEditOperation={onRequestEditOperation}
       >
         <Nodes
           dataSource={nodes}
           typeExpr={"type"}
           textExpr="name"
           autoSizeEnabled={true}
-        > 
+        >
         </Nodes>
         <Edges
           dataSource={links}
