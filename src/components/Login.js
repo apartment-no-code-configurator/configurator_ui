@@ -52,7 +52,7 @@ class Login extends Component {
           <input type="aoa_number" onChange={(event) => this.handleChange(event,"aoa_number")} placeholder="AOA Number" required />
           <input type="email" onChange={(event) => this.handleChange(event,"email")} placeholder="Email" required />
           <input type="password" onChange={(event) => this.handleChange(event,"password")} placeholder="Password" required />
-          <button type="submit" onClick={this.handleSubmit}>Login</button>
+          <button type="submit" class='ui button' onClick={this.handleSubmit}>Login</button>
         </form>
       </div>
     );
