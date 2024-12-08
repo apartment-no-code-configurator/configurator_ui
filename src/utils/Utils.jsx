@@ -37,8 +37,8 @@ export const flashMessage = (id, message) => {
 }
 
 export const hideLicenseTags = () => {
-  const licenseTags = document.querySelectorAll('dx-license');
-  licenseTags.forEach(tag => {
-    tag.style.display = 'none';
+  const licenseTags = document.getElementsByTagName('dx-license');
+  Array.from(licenseTags).forEach(tag => {
+    tag.remove(); // Removes the element from the DOM
   });
 };
