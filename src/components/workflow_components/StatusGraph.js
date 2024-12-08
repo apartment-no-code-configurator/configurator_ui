@@ -31,7 +31,7 @@ const StatusGraph = ({ nodes = [], links = [] }) => {
         visible={true}
         height={"100%"}
         viewToolbar={false}
-        editing={false}
+        editing={true}
         simpleView={true}
         onRequestEditOperation={onRequestEditOperation}
       >
