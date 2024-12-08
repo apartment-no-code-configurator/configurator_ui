@@ -183,9 +183,9 @@ h1.page-title {
   padding: 7px;
 }
 
-.dx-header-row {  
+.dx-header-row {
   background: var(--light-grey);
-}  
+}
 
 /* datagrid styles end */
 
@@ -429,3 +429,8 @@ h1.page-title {
 
 
 /* Flash Messages End */
+
+.workflow-form-container div .ui.bottom.attached.segment.active.tab .status-container .dx-widget.dx-visibility-change-handler.dx-diagram .dx-overlay-wrapper.dx-popup-wrapper.dx-diagram-toolbox-popup .dx-overlay-content.dx-popup-normal.dx-popup-draggable.dx-resizable, .workflow-form-container div .ui.bottom.attached.segment.active.tab .status-container .dx-widget.dx-visibility-change-handler.dx-diagram .dx-diagram-content-wrapper .dx-diagram-floating-toolbar-container.dx-widget .dx-diagram-toolbar.dx-toolbar.dx-widget.dx-visibility-change-handler.dx-collection .dx-toolbar-items-container .dx-toolbar-before .dx-item.dx-toolbar-item.dx-toolbar-button.dx-toolbar-text-auto-hide .dx-item-content.dx-toolbar-item-content {
+  display: none
+}
+
