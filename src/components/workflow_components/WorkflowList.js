@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { DataGrid, Column, Toolbar, Item } from 'devextreme-react/data-grid';
-import { hideLicenseTags } from '../utils/Utils';
+import { hideLicenseTags } from '../../utils/Utils.jsx';  // Import the utility function for hideLicenseTags
 import { Link } from 'react-router-dom';
 import { Workflow } from '../../lib/WorkflowLib';
 import Button from 'devextreme-react/button';
