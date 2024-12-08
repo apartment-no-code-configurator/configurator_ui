@@ -9,6 +9,7 @@ import ChatbotList from './components/chatbot_components/ChatbotList.js';
 import WorkflowList from './components/workflow_components/WorkflowList.js';
 import WorkflowForm from './components/workflow_components/WorkflowForm.js'
 import 'devextreme/dist/css/dx.light.css';
+import { SpeedInsights } from "@vercel/speed-insights/react"
 import Button from 'devextreme-react/button';
 import './App.css';  // Import the CSS for global styles and the App component
 import 'beautiful-react-diagrams/styles.css';
@@ -48,7 +49,7 @@ class App extends Component {
     //   }
     // });
     hideLicenseTags();
-    // observeLicenseTags();
+    observeLicenseTags();
   }
 
   componentDidUpdate() {
@@ -82,6 +83,8 @@ class App extends Component {
         })}
       </div>)
     return (
+      <>
+      <SpeedInsights />
       <Router>
         <Sidebar
           sidebar={sidebarContent}
@@ -130,6 +133,7 @@ class App extends Component {
           </div>
         </Sidebar>
       </Router>
+      </>
     );
   }
 }
