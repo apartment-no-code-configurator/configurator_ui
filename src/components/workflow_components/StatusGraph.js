@@ -8,7 +8,7 @@ import Diagram, {
 const StatusGraph = ({ nodes = [], links = [] }) => {
 
   const onRequestEditOperation = ((e) => {
-    if (e.operation === 'changeConnection' || e.operation === "changeConnectorPoints") {
+    if (e.operation === 'changeConnection') {
       e.allowed=false;
     }
   })
