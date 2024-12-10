@@ -9,10 +9,13 @@ import ChatbotList from './components/chatbot_components/ChatbotList.js';
 import WorkflowList from './components/workflow_components/WorkflowList.js';
 import WorkflowForm from './components/workflow_components/WorkflowForm.js'
 import 'devextreme/dist/css/dx.light.css';
+import { SpeedInsights } from "@vercel/speed-insights/react";
+import { Analytics } from "@vercel/analytics/react";
 import Button from 'devextreme-react/button';
 import './App.css';  // Import the CSS for global styles and the App component
 import 'beautiful-react-diagrams/styles.css';
 import { NAV_ITEMS, MENU_ITEMS, sessionId } from './utils/Constants.jsx';
+import { hideLicenseTags, observeLicenseTags } from './utils/Utils.jsx';  // Import the utility function for hideLicenseTags
 import FlashMessages from "./components/FlashMessages";
 import PageNotFound from "./utils/PageNotFound.jsx";
 
@@ -27,11 +30,32 @@ class App extends Component {
 
   componentDidMount() {
     // Select the dx-license element
-    const licenseElement = document.querySelector('dx-license');
-    if (licenseElement) {
-      // Hide the element
-      licenseElement.style.display = 'none';
-    }
+    // const licenseElement = document.querySelector('dx-license');
+    // if (licenseElement) {
+    //   // Hide the element
+    //   licenseElement.style.display = 'none';
+    // }
+
+    // document.addEventListener('DOMContentLoaded', () => {
+    //   const licenseTag = document.querySelector('.dx-license');
+    //   if (licenseTag) {
+    //     licenseTag.remove();
+    //     const observer = new MutationObserver(licenseTag);
+    //     observer.observe(document.body, { childList: true, subtree: true });
+
+    //     return () => {
+    //       observer.disconnect(); // Clean up observer on component unmount
+    //     };
+
+    //   }
+    // });
+    hideLicenseTags();
+    observeLicenseTags();
+  }
+
+  componentDidUpdate() {
+    hideLicenseTags();
+    // observeLicenseTags();
   }
 
   onSetSidebarOpen = (open) => {
@@ -48,6 +72,7 @@ class App extends Component {
   }
 
   render() {
+    hideLicenseTags();
     const sidebarContent = (
       <div className="sidebar-menu">
         {MENU_ITEMS.map((item) => {
@@ -59,6 +84,9 @@ class App extends Component {
         })}
       </div>)
     return (
+      <>
+      <SpeedInsights />
+      <Analytics/>
       <Router>
         <Sidebar
           sidebar={sidebarContent}
@@ -93,7 +121,7 @@ class App extends Component {
                     </>
                   ) : ""
                 }
-                <Route path="/home" element={<Home />} />
+                <Route path="/home" element={<ChatbotList />} />
                 <Route path="/chatbots" element={<ChatbotList />} />
                 <Route path="/workflows/:workflowId" element={
                   <WorkflowForm />
@@ -107,6 +135,7 @@ class App extends Component {
           </div>
         </Sidebar>
       </Router>
+      </>
     );
   }
 }

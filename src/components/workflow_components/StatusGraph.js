@@ -4,8 +4,18 @@ import Diagram, {
   Nodes,
   Edges,
 } from 'devextreme-react/diagram';
+import { hideLicenseTags, observeLicenseTags } from '../../utils/Utils';
+
 
 const StatusGraph = ({ nodes = [], links = [], editStatusEnable }) => {
+
+  const onRequestEditOperation = ((e) => {
+    if (e.operation === 'changeConnection') {
+      e.allowed=false;
+    }
+  })
+
+  hideLicenseTags();
 
   return (
       <Diagram
@@ -19,25 +29,25 @@ const StatusGraph = ({ nodes = [], links = [], editStatusEnable }) => {
         snapToGrid={true}
         pageColor='white'
         pageOrientation='landscape'
-        readOnly={true}
+        readOnly={false}
         showGrid={false}
         width={"100%"}
         visible={true}
         height={"100%"}
         viewToolbar={false}
-        editing={false}
+        editing={true}
         simpleView={true}
         onItemClick={(itemData) => {
           editStatusEnable(itemData.item.dataItem);
         }}
+        onRequestEditOperation={onRequestEditOperation}
       >
         <Nodes
           dataSource={nodes}
           typeExpr={"type"}
           textExpr="name"
           autoSizeEnabled={true}
-          
-        > 
+        >
         </Nodes>
         <Edges
           dataSource={links}

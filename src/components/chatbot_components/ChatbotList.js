@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { DataGrid, Column, Toolbar, Item } from 'devextreme-react/data-grid';
+import { hideLicenseTags, observeLicenseTags } from '../../utils/Utils.jsx'; // Import the utility function
 import { Button, Checkbox } from 'semantic-ui-react';
 import 'devextreme/dist/css/dx.light.css';
 import RightSideFormLayout from '../../util_components/RightSideFormLayout.js';
@@ -19,11 +20,18 @@ class ChatbotList extends Component {
   }
 
   componentDidMount() {
+    hideLicenseTags();
+    // observeLicenseTags();
     if (!localStorage.getItem('apartix_session_id')) {
       window.location.href = `${window.location.origin}/login`
     } else {
       this.fetchChatbots();
     }
+  }
+
+  componentDidUpdate() {
+    hideLicenseTags();
+    // observeLicenseTags();
   }
 
   fetchChatbots = async () => {
@@ -87,6 +95,7 @@ class ChatbotList extends Component {
   }
 
   render() {
+    hideLicenseTags();
     const { chatbots, showChatbotForm, selectedChatbot, error } = this.state;
 
     return (
@@ -108,14 +117,14 @@ class ChatbotList extends Component {
             return <Checkbox className="app-custom-toggle" toggle checked={isActive} onChange={(e, checkboxData) => {
               const chatbotId = data.id();
               const value = checkboxData.checked;
-              console.log(chatbotId, value); //Replace with handler method based on the checkbox value. 
+              console.log(chatbotId, value); //Replace with handler method based on the checkbox value.
             }} />
           }} />
           {/*<Column
             caption="Actions"
             cellRender={({ data }) => (
               <Button
-              
+
                 onClick={() => data.isActive() ? this.handleDeleteChatbot(data.id) : this.handleActivateChatbot(data.id)}
               >{data.isActive() ? "Deactivate" : "Activate"}</Button>
             )}
