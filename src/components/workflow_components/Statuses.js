@@ -238,7 +238,7 @@ export default class Statuses extends Component {
 
   render() {
     const { newStatusSelected, selectedStatus, newVariable, selectedStatusVariables, selectedVariable, showAddNewVariablePopup, variablePopupLoading } = this.state;
-    const schema = (this.renderStatusGraphSchema())
+    const schema = (this.renderStatusGraphSchema());
     return (
       <div className='status-container'>
         <h3>Statuses</h3>

@@ -27,18 +27,18 @@ const StatusGraph = ({ nodes = [], links = [], editStatusEnable }) => {
         }}
         className="status-graph"
         pageOrientation='landscape'
-        readOnly={false}
+        readOnly={true}
         showGrid={false}
         width={"100%"}
         visible={true}
         height={"500px"}
         viewToolbar={true}
-        editing={true}
+        editing={false}
         simpleView={true}
         onItemClick={(itemData) => {
           editStatusEnable(itemData.item.dataItem);
         }}
-        onRequestEditOperation={onRequestEditOperation}
+        // onRequestEditOperation={onRequestEditOperation}
       >
         <Nodes
           dataSource={nodes}
