@@ -3,8 +3,10 @@ import React from 'react';
 import Diagram, {
   Nodes,
   Edges,
+  AutoLayout
 } from 'devextreme-react/diagram';
 import { hideLicenseTags, observeLicenseTags } from '../../utils/Utils';
+import "./StatusGraph.css";
 
 
 const StatusGraph = ({ nodes = [], links = [], editStatusEnable }) => {
@@ -19,22 +21,18 @@ const StatusGraph = ({ nodes = [], links = [], editStatusEnable }) => {
 
   return (
       <Diagram
-        autoZoomMode='disabled'
-        zoomLevel={false}
         defaultItemProperties={{
         connectorLineEnd: "arrow",
         connectorLineStart:"none",
-         connectorLineType:"orthogonal",
         }}
-        snapToGrid={true}
-        pageColor='white'
+        className="status-graph"
         pageOrientation='landscape'
         readOnly={false}
         showGrid={false}
         width={"100%"}
         visible={true}
-        height={"100%"}
-        viewToolbar={false}
+        height={"500px"}
+        viewToolbar={true}
         editing={true}
         simpleView={true}
         onItemClick={(itemData) => {
@@ -48,6 +46,7 @@ const StatusGraph = ({ nodes = [], links = [], editStatusEnable }) => {
           textExpr="name"
           autoSizeEnabled={true}
         >
+          <AutoLayout type="layered" />
         </Nodes>
         <Edges
           dataSource={links}
