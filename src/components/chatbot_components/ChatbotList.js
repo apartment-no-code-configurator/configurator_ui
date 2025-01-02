@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import { DataGrid, Column } from 'devextreme-react/data-grid';
+import { DataGrid, Column, Toolbar, Item } from 'devextreme-react/data-grid';
+import { hideLicenseTags, observeLicenseTags } from '../../utils/Utils.jsx'; // Import the utility function
+import { Button, Checkbox } from 'semantic-ui-react';
 import 'devextreme/dist/css/dx.light.css';
-import Button from 'devextreme-react/button'; //TO-DO: Use bootstrap button
+import RightSideFormLayout from '../../util_components/RightSideFormLayout.js';
 import withSessionCheck from '../../higher_order_components/CheckSession.js';
 import { Chatbot } from '../../lib/ChatbotLib.js';
 import AddChatbot from './AddChatbot.js';
@@ -18,11 +20,18 @@ class ChatbotList extends Component {
   }
 
   componentDidMount() {
+    hideLicenseTags();
+    // observeLicenseTags();
     if (!localStorage.getItem('apartix_session_id')) {
       window.location.href = `${window.location.origin}/login`
     } else {
       this.fetchChatbots();
     }
+  }
+
+  componentDidUpdate() {
+    hideLicenseTags();
+    // observeLicenseTags();
   }
 
   fetchChatbots = async () => {
@@ -86,35 +95,49 @@ class ChatbotList extends Component {
   }
 
   render() {
+    hideLicenseTags();
     const { chatbots, showChatbotForm, selectedChatbot, error } = this.state;
 
     return (
       <div className='chatbot-list-container'>
         {error && <p>Error: {error}</p>}
-        {showChatbotForm && <AddChatbot chatbot={selectedChatbot} sidebarOpen={true} handleSidebarClose={this.closeAddChatbotSidebar} updateChatBotList={this.updateChatBotList} />}
-        <Button
-          text="+ Add Chatbot"
-          className="add-chatbot-button"
-          onClick={this.handleAddChatbot}
-        />
+        {showChatbotForm && (
+          <RightSideFormLayout onClose={this.closeAddChatbotSidebar}>
+            <AddChatbot chatbot={selectedChatbot} handleSidebarClose={this.closeAddChatbotSidebar} updateChatBotList={this.updateChatBotList} />
+          </RightSideFormLayout>
+        )}
         <DataGrid
           dataSource={chatbots}
           keyExpr="id"
           showBorders={true}
         >
           <Column dataField="name" caption="Name" />
-          <Column dataField="is_active" caption="Active" cellRender={({data}) => (
-            <p>{data.isActive() ? "Active" : "Inactive"}</p>
-          )} />
-          <Column
+          <Column dataField="is_active" caption="Status" cellRender={({data}) => {
+            const isActive = data.isActive();
+            return <Checkbox className="app-custom-toggle" toggle checked={isActive} onChange={(e, checkboxData) => {
+              const chatbotId = data.id();
+              const value = checkboxData.checked;
+              console.log(chatbotId, value); //Replace with handler method based on the checkbox value.
+            }} />
+          }} />
+          {/*<Column
             caption="Actions"
             cellRender={({ data }) => (
               <Button
-                text={data.isActive() ? "Deactivate" : "Activate"}
+
                 onClick={() => data.isActive() ? this.handleDeleteChatbot(data.id) : this.handleActivateChatbot(data.id)}
-              />
+              >{data.isActive() ? "Deactivate" : "Activate"}</Button>
             )}
-          />
+          />*/}
+          <Toolbar>
+            <Item location="after">
+              <Button
+                primary
+                className="add-chatbot-button"
+                onClick={this.handleAddChatbot}
+              >{"+ Add Chatbot"}</Button>
+            </Item>
+          </Toolbar>
         </DataGrid>
       </div>
     );

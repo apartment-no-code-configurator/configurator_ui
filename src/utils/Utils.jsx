@@ -35,3 +35,32 @@ export const flashMessage = (id, message) => {
     el.classList.remove("show");
   }, 3000);
 }
+
+export const hideLicenseTags = () => {
+  const licenseTags = document.querySelectorAll('dx-license');
+  licenseTags.forEach(tag => {
+    tag.style.display = 'none';
+  });
+
+  const licenseHTMLTags = document.getElementsByTagName('dx-license');
+  Array.from(licenseHTMLTags).forEach(tag => {
+    tag.remove(); // Removes the element from the DOM
+  });
+};
+
+export const observeLicenseTags = () => {
+  const observer = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      if (mutation.addedNodes.length) {
+        mutation.addedNodes.forEach((node) => {
+          if ((node.tagName === 'DX-LICENSE') || (node.tagName === "dx-license")) {
+            node.remove();
+          }
+        });
+      }
+    });
+  });
+
+  // Start observing the document body for child node additions
+  observer.observe(document.body, { childList: true, subtree: true });
+}

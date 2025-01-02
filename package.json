@@ -6,6 +6,8 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "@vercel/analytics": "^1.4.1",
+    "@vercel/speed-insights": "^1.1.0",
     "axios": "^1.7.2",
     "beautiful-react-diagrams": "^0.5.1",
     "devextreme": "^24.1.3",

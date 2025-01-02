@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import 'beautiful-react-diagrams/styles.css';
 import { Form, Tab, Button, Segment, Modal, Dropdown } from 'semantic-ui-react';
 import { Status } from '../../lib/StatusLib';
-import StatusGraph from './GraphHooksNautanki';
+import StatusGraph from './StatusGraph';
 import RightSideFormLayout from '../../util_components/RightSideFormLayout'
 import StatusForm from './StatusForm';
 import { Variable } from '../../lib/VariableLib';
@@ -39,7 +39,7 @@ export default class Statuses extends Component {
 
   editStatusEnable = (selectedStatus) => {
     this.setState({
-      selectedStatus
+      selectedStatus: this.state.statuses.find((status) => status.id === selectedStatus.id)
     })
   }
 
@@ -95,7 +95,10 @@ export default class Statuses extends Component {
     } else {
       this.setState({
         selectedStatus: null
-      })
+      });
+      if (response?.status === 201) {
+        _this.props.fetchWorkflow();
+      }
     }
   }
 
@@ -121,11 +124,25 @@ export default class Statuses extends Component {
     const nodes = [];
     const links = [];
     statuses.forEach((status) => {
-      nodes.push(status.generateDiagramJson({ updateFunctionCallback: this.editStatusEnable }));
-      const statusLinks = status.generateLinks();
-      statusLinks.forEach((status) => {
-        links.push(status)
+      nodes.push({
+        id: status.id,
+        name: status.name(),
+        type: "rectangle"
+      });
+      status.childrenIds.forEach((childId) => {
+        links.push({
+          id: `${status.id}${childId}`,
+          from: status.id,
+          to: childId
+        });
       })
+      status.parentIds.forEach((parentId) => {
+        links.push({
+          id: `${status.id}${parentId}`,
+          from: parentId,
+          to: status.id
+        });
+      });
     })
 
     const schema = {
@@ -221,14 +238,14 @@ export default class Statuses extends Component {
 
   render() {
     const { newStatusSelected, selectedStatus, newVariable, selectedStatusVariables, selectedVariable, showAddNewVariablePopup, variablePopupLoading } = this.state;
-    const schema = (this.renderStatusGraphSchema())
+    const schema = (this.renderStatusGraphSchema());
     return (
       <div className='status-container'>
         <h3>Statuses</h3>
         {(newStatusSelected || selectedStatus) && this.renderForm()}
         {this.renderAddNewNodeButton()}
         {schema.nodes.length > 0 && (
-          <StatusGraph nodes={schema.nodes} links={schema.links} />
+          <StatusGraph nodes={schema.nodes} links={schema.links} editStatusEnable={this.editStatusEnable} />
         )}
 
         <Modal
