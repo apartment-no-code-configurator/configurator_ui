@@ -12,7 +12,7 @@ import 'devextreme/dist/css/dx.light.css';
 import { SpeedInsights } from "@vercel/speed-insights/react";
 import { Analytics } from "@vercel/analytics/react";
 import Button from 'devextreme-react/button';
-import './App.css';  // Import the CSS for global styles and the App component
+import './App.css';  // Import the CSS for gl obal styles and the App component
 import 'beautiful-react-diagrams/styles.css';
 import { NAV_ITEMS, MENU_ITEMS, sessionId } from './utils/Constants.jsx';
 import { hideLicenseTags, observeLicenseTags } from './utils/Utils.jsx';  // Import the utility function for hideLicenseTags
