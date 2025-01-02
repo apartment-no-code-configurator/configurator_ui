@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { Variable } from './VariableLib';
-import { DataGrid, Column } from 'devextreme-react/data-grid';
 import { refreshPage } from '../utils/Utils';
 import { API_HOST } from '../utils/Constants';
 
@@ -182,7 +181,6 @@ export class Status {
       links.push({
         input: `${this.id}`,
         output: `${childLink.id}`,
-        label: `Link from ${this.content} to ${childLink.content}`,
       })
     })
     return links;
@@ -191,24 +189,6 @@ export class Status {
   changeDetailsPaneIndex = (e, { activeIndex }) => {
     this.activePaneIndex = activeIndex ;
   };
-
-  linkFormDetails = () => {
-    const dataSource = []
-    this.children.forEach((child) => {
-      dataSource.push(
-        {
-          id: child.id,
-          name: child.label,
-        }
-      )
-    })
-    return (
-      <DataGrid dataSource={dataSource}>
-        <Column caption="Status" field={"name"}/>
-        <Column caption="Actions" field={"id"}/>
-      </DataGrid>
-    )
-  }
 
   handleParentStatusChange(e, { value }) {
     this.newParentStatusId = value

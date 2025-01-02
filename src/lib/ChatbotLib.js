@@ -11,7 +11,7 @@ export class Chatbot {
   }
 
   setValue(key, value) {
-    this.record[key] = typeof value === 'string' ? value.trim() : value;
+    this.record[key] = typeof value === "string" ? value.trim() : value;
   }
 
   id() {
@@ -64,7 +64,7 @@ export class Chatbot {
         payload,
         { headers: this.generateHeaders() }
       );
-      
+
       if (response.status === 200 || response.status === 201) {
         this.record = response.data;
         return this;

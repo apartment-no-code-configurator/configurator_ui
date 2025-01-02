@@ -51,4 +51,5 @@
   font-size: 20px;
   cursor: pointer;
   float: right;
+  z-index: 1;
 }

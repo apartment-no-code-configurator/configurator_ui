@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Sidebar from 'react-sidebar';
+import { Form, Button } from 'semantic-ui-react';
 import { Chatbot } from '../../lib/ChatbotLib';
 
 class AddChatbot extends Component {
@@ -18,8 +18,8 @@ class AddChatbot extends Component {
     }
   }
 
-  handleInputChange = (e) => {
-    const { name, value } = e.target;
+  handleInputChange = (e, data) => {
+    const { name, value } = { ...data };
     const { chatbot } = this.state;
     chatbot.setValue(name, value);
     this.setState({
@@ -44,84 +44,62 @@ class AddChatbot extends Component {
 
   render() {
 
-    const { sidebarOpen, chatbot } = this.props;
+    const { chatbot } = this.props;
 
     return (
-      <Sidebar
-        className="right-sidebar"
-        sidebar={
-          <div className="add-chatbot-form">
-            <h2>Add Chatbot</h2>
-            <form onSubmit={this.handleFormSubmit}>
-              <div>
-                <label>Name:</label>
-                {" "}
-                <input
-                  className="input-generic"
-                  type="text"
-                  name="name"
-                  value={chatbot.name()}
-                  onChange={this.handleInputChange}
-                  required
-                />
-              </div>
-              <div>
-                <label>API Details:</label>
-                {" "}
-                <input
-                  type="text"
-                  className="input-generic"
-                  name="api_token"
-                  value={chatbot.apiToken()}
-                  onChange={this.handleInputChange}
-                  required
-                />
-              </div>
-              <div>
-                <label>Bot Username:</label>
-                {" "}
-                <input
-                  type="text"
-                  className="input-generic"
-                  name="bot_username"
-                  value={chatbot.botUsername()}
-                  onChange={this.handleInputChange}
-                  required
-                />
-              </div>
-              <div>
-                <label>Is Active:</label>
-                {" "}
-                <input
-                  type="checkbox"
-                  className="input-generic"
-                  name="is_active"
-                  checked={chatbot.isActive()}
-                  onChange={(e) => this.handleInputChange({
-                    target: { name: 'is_active', value: e.target.checked },
-                  })}
-                />
-              </div>
-              <div>
-                <label>Chatbot Type:</label>
-                {" "}
-                <input
-                  disabled={true}
-                  type="text"
-                  className="input-generic"
-                  name="chatBotType"
-                  value={chatbot.chatBotType()}
-                  required
-                />
-              </div>
-              <button onClick={this.handleAddChatbot} type="submit">Add Chatbot</button>
-            </form>
-          </div>
-        }
-        open={sidebarOpen}
-        onSetOpen={this.handleSidebarClose}
-        styles={{ sidebar: { background: "white", width: "calc(70vw)", "marginLeft": "60%", "padding": "5px"} }}
-      />
+      <Form className="add-chatbot-form" onSubmit={this.handleFormSubmit}>
+        <h2 className='heading'>Add Chatbot</h2>
+        <Form.Input
+          fluid
+          label='Name'
+          name="name"
+          placeholder='Enter the chatbot name'
+          value={chatbot.name()}
+          onChange={this.handleInputChange}
+          required
+        />
+
+        <Form.Input
+          fluid
+          label='API Details'
+          name="api_token"
+          placeholder='Enter the api token value'
+          value={chatbot.apiToken()}
+          onChange={this.handleInputChange}
+          required
+        />
+        <Form.Input
+          fluid
+          label='Bot Username'
+          name="bot_username"
+          placeholder='Enter the chatbot username'
+          value={chatbot.botUsername()}
+          onChange={this.handleInputChange}
+          required
+        />
+        <Form.Checkbox
+          fluid
+          label='Is Active'
+          name="is_active"
+          value={chatbot.isActive()}
+          onChange={(e, data) => {
+            chatbot.setValue(data.name, data.checked);
+            this.setState({
+              chatbot
+            })
+          }}
+          required
+        />
+        <Form.Input
+          fluid
+          label='Chatbot Type'
+          disabled
+          name="chatBotType"
+          value={chatbot.chatBotType()}
+          required
+        />
+        <Button primary onClick={this.handleAddChatbot} type="submit">Add Chatbot</Button>
+      </Form>
     );
   }
 }
