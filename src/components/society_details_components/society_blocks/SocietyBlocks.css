@@ -1,0 +1,21 @@
+.society-blocks {
+  font-family: 'Arial', sans-serif; /* Match the font family */
+  color: #333; /* Match the text color */
+}
+
+.dx-datagrid .dx-header-row {
+  background-color: #f4f4f4; /* Match header background */
+  font-weight: bold; /* Match header font weight */
+}
+
+.dx-datagrid .dx-row {
+  border-bottom: 1px solid #ddd; /* Match row border */
+}
+
+.dx-datagrid .dx-row:hover {
+  background-color: #f9f9f9; /* Match hover effect */
+}
+
+.action-buttons .ui.button {
+  margin: 0 5px; /* Add spacing between action buttons */
+}

@@ -8,9 +8,10 @@ import Register from './components/Register.js';
 import ChatbotList from './components/chatbot_components/ChatbotList.js';
 import WorkflowList from './components/workflow_components/WorkflowList.js';
 import WorkflowForm from './components/workflow_components/WorkflowForm.js'
+import SocietyDetails from './components/society_details_components/SocietyDetails.jsx';
 import 'devextreme/dist/css/dx.light.css';
 import { SpeedInsights } from "@vercel/speed-insights/react";
-import { Analytics } from "@vercel/analytics/react";
+// import { Analytics } from "@vercel/analytics/react";
 import Button from 'devextreme-react/button';
 import './App.css';  // Import the CSS for gl obal styles and the App component
 import 'beautiful-react-diagrams/styles.css';
@@ -85,7 +86,7 @@ class App extends Component {
     return (
       <>
       <SpeedInsights />
-      <Analytics/>
+      {/* <Analytics/> */}
       <Router>
         <Sidebar
           sidebar={sidebarContent}
@@ -126,9 +127,9 @@ class App extends Component {
                   <WorkflowForm />
                 } />
                 <Route path="/workflows" element={<WorkflowList />} />
-                <Route path="*" element={<PageNotFound />} />
                 {/* <Route path="/user_management" element={<UserManagement />} /> */}
-                {/* <Route path="/society_details" element={<SocietyDetails />} /> */}
+                <Route path="/society_details" element={<SocietyDetails />} />
+                <Route path="*" element={<PageNotFound />} />
               </Routes>
             </div>
           </div>
