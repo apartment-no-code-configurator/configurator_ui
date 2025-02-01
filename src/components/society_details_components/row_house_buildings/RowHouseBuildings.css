@@ -1,0 +1,54 @@
+.row-house-buildings {
+  font-family: 'Arial', sans-serif;
+  color: #333;
+}
+
+.dx-datagrid .dx-header-row {
+  background-color: #f4f4f4;
+  font-weight: bold;
+}
+
+.dx-datagrid .dx-row {
+  border-bottom: 1px solid #ddd;
+}
+
+.dx-datagrid .dx-row:hover {
+  background-color: #f9f9f9;
+}
+
+.action-buttons .ui.button {
+  margin: 0 5px;
+}
+
+.form-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+}
+
+.form-container {
+  z-index: 1001;
+}
+
+.form-container h3 {
+  margin-bottom: 20px;
+}
+
+.form-container .field {
+  margin-bottom: 15px;
+}
+
+.form-container label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.form-container input,
+.form-container .dropdown {
+  width: 100%;
+}

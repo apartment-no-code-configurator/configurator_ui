@@ -4,6 +4,9 @@ import React, { Component } from 'react';
 import { Tab } from 'semantic-ui-react';
 import 'semantic-ui-css/semantic.min.css';
 import SocietyBlocks from './society_blocks/SocietyBlocks';
+import Flats from './flats/Flats';
+import RowHouseBuildings from './row_house_buildings/RowHouseBuildings';
+import Units from './units/Units';
 
 class SocietyDetails extends Component {
   constructor(props) {
@@ -30,7 +33,7 @@ class SocietyDetails extends Component {
       menuItem: 'Row Houses',
       render: () => (
         <Tab.Pane>
-          <div>Row Houses Content</div>
+          <RowHouseBuildings />
         </Tab.Pane>
       ),
     },
@@ -38,7 +41,15 @@ class SocietyDetails extends Component {
       menuItem: 'Flats',
       render: () => (
         <Tab.Pane>
-          <div>Flats Content</div>
+          <Flats />
+        </Tab.Pane>
+      ),
+    },
+    {
+      menuItem: 'Units',
+      render: () => (
+        <Tab.Pane>
+          <Units />
         </Tab.Pane>
       ),
     }

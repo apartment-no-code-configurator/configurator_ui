@@ -1,0 +1,37 @@
+.units {
+  padding: 20px;
+}
+
+.action-buttons {
+  white-space: nowrap;
+}
+
+/* Slide-in form styles */
+.unit-form-modal {
+  position: fixed !important;
+  right: 0 !important;
+  top: 0 !important;
+  bottom: 0 !important;
+  width: 500px !important;
+  margin: 0 !important;
+  height: 100vh !important;
+  border-radius: 0 !important;
+}
+
+.unit-form-modal > .content {
+  padding: 20px !important;
+}
+
+/* Animation for slide-in */
+.unit-form-modal.slide-in {
+  animation: slideIn 0.3s forwards;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
